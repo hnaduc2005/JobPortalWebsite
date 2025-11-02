@@ -38,11 +38,17 @@ VD: git checkout -b feature/update_candidate
 VD: git push origin feature/update_candidate
 6. Tạo pull request
 - Vào github -> mở repo
-- Chọn "Pull request" -> có thông báo "Compare & Pull Request" -> Chọn "Compare & Pull Request"
+- Chọn "Pull request" -> có thông báo "Compare & Pull Request" -> Chọn "Compare & Pull Request"  (Hoặc copy đường dẫn ở terminal khi push thành công)
 - Nhập mô tả 
 - Chọn nhánh merge vào ( mặc định là main )
 - Nhấn "Create Pull Request"
 7. Xoá nhánh (tuỳ chọn)
-C1: Ấn delete branch trên github sau khi gửi pull request
-C2: git branch -d feature/<-tên nhánh->            -> Xóa nhánh local
-    git push origin --delete feature/<-tên nhánh->  -> Xóa nhánh trên GitHub
+C1: Ấn delete branch trên github sau khi gửi pull request -> Xóa nhánh trên GitHub
+C2: git push origin --delete feature/<-tên nhánh->  -> Xóa nhánh trên GitHub
+
+git branch -d feature/<-tên nhánh->     -> Xóa nhánh ở local (sau khi code đã được merge vào main)
+
+! Pull code từ github về máy trước khi xoá ở local
+- Chuyển nhánh từ nhánh hiện tại về main: git switch main
+- Pull code từ github về máy : git pull origin main 
+- Xoá
