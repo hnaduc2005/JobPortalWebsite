@@ -1,3 +1,5 @@
+## Cấu trúc dự án
+
 1.	Core : Đặt các thành phần dùng chung
 - Core/config : Chứa các file cấu hình ( database, hằng số, …)
 - Core/includes : Chứa các file dùng chung ( functions, sessions, …)
@@ -11,3 +13,36 @@
 - Auth: Login/logout
 4.	Routes : Định nghĩa và quản lí đường dẫn 
 
+
+## Sử dụng git/github
+
+Cấu hình cơ bản: 
+git config --global user.name "..."
+git config --global user.email "..."
+
+git config --global --list -> Xem cấu hình
+
+1. Clone về máy: git clone https://github.com/hnaduc2005/JobPortalWebsite ( chỉ 1 lần )
+2. Lấy code mới nhất: 
+- git checkout main
+- git pull origin main
+3. Tạo branch ( theo chức năng )
+- git checkout -b feature/<-tên chức năng->
+VD: git checkout -b feature/update_candidate
+4. Lưu thay đổi
+- git status -> kiểm tra file thay đổi
+- git add . -> thêm file tất cả file vào danh sách chờ (git add <-đường dẫn file-> -> thêm file tuỳ chọn -> VD: git add admin/views/index.php)
+- git commit -m "<-ghi chú->"  -> tạo commit (VD: git commit -m "update admin page")
+5. Đẩy nhánh lên github
+- git push origin feature/<-tên nhánh->
+VD: git push origin feature/update_candidate
+6. Tạo pull request
+- Vào github -> mở repo
+- Chọn "Pull request" -> có thông báo "Compare & Pull Request" -> Chọn "Compare & Pull Request"
+- Nhập mô tả 
+- Chọn nhánh merge vào ( mặc định là main )
+- Nhấn "Create Pull Request"
+7. Xoá nhánh (tuỳ chọn)
+C1: Ấn delete branch trên github sau khi gửi pull request
+C2: git branch -d feature/<-tên nhánh->            -> Xóa nhánh local
+    git push origin --delete feature/<-tên nhánh->  -> Xóa nhánh trên GitHub
