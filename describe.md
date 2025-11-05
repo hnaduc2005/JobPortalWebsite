@@ -52,3 +52,36 @@ git branch -d feature/<-tên nhánh->     -> Xóa nhánh ở local (sau khi code
 - Chuyển nhánh từ nhánh hiện tại về main: git switch main
 - Pull code từ github về máy : git pull origin main 
 - Xoá
+
+## Database
+1. Bảng User:
+- id : int, auto inc, primary key
+- email : varchar(100), not null, unique -> duy nhất
+- password : varchar(100), not null
+- fullname : varchar(150), null -> khi tạo có thể null
+- phone : varchar(15), null
+- role : char(1) ->  0: admin, 1: candidate, 2: employer
+- active_token : varchar(100) -> token được gửi về mail để kích hoạt tài khoản
+- status : char(1) -> trạng thái tài khoản (0: bị khoá/chưa kích hoạt, 1: đã kích hoạt)
+- is_verified : boolean -> xác nhận email hợp lệ (true/false)
+- last_login : datetime -> thời gian đăng nhập cuối cùng
+- created_at : datetime -> thời gian tạo
+- updated_at : datetime -> cập nhật gần nhất
+
+2. Bảng Candidate_profiles:
+- id : int, auto inc, primary key
+- users_id : Users [ref, unique, required] -> khoá phụ tham chiếu đến bảng Users
+- address : text, null
+- links : text, null -> các liên kết đến bên ngoài (fb, ig, github, ...)
+- avatar : varchar(200) -> đường dẫn đến ảnh
+- date_of_birth : date
+- gender : enum('male', 'female', 'other')
+- education_level : varchar(100)
+- major : varchar(100)
+- experience_months : int -> kinh nghiệm nhập vào có thể là cả năm và tháng ( tuỳ form nhập ) -> dùng hàm chuyển về tháng để dễ so sánh
+- expected_salary : bigint -> mức lương mong muốn
+- preferred_location : varchar(150) -> địa điểm muốn làm việc
+- skills : text -> kĩ năng ngăn cách bởi dẩu phẩy (nhập vào)
+- cv_files : varchar(250) -> link upload cv
+- created_at : datetime -> thời gian tạo 
+- updated_at : datetime -> cập nhật gần nhất
