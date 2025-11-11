@@ -9,6 +9,9 @@
 
 <body>
     <h1>Trang admin</h1>
+    <?php 
+    require_once './core/config/config.php';
+?>
 </body>
 
 </html>
