@@ -8,10 +8,10 @@
 </head>
 
 <body>
-    <h1>Trang admin</h1>
     <?php 
-    require_once './core/config/config.php';
-?>
+    require_once __DIR__ . '/../../core/config/config.php';
+    ?>
+    <h1>Trang admin</h1>
 </body>
 
 </html>
