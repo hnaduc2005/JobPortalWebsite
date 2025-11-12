@@ -1,9 +1,9 @@
 <?php
 // --- Cấu hình database ---
-define('DB_HOST', 'localhost:3306');
+define('DB_HOST', '103.255.237.26:3306');
 define('DB_NAME', 'timvieci_job_portal');
-define('DB_USER', 'hnaduc2005');
-define('DB_PASS', 'hnaduc2005@');
+define('DB_USER', 'timvieci_hnaduc2005');
+define('DB_PASS', 'VKGMJ;4@I{wM');
 define('DB_DRIVER', 'mysql');
 
 
@@ -14,6 +14,11 @@ ob_start();
 
 // --- Kiểm tra truy cập hợp lệ ---
 const _accessToken = true;
+function checkAccessToken() {
+    if (!defined('_accessToken')) {
+        die("Truy cập không hợp lệ!");
+    }
+}
 
 // --- Thiết lập host ---
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
@@ -25,4 +30,9 @@ define('BASE_URL', $protocol . $domain . $folder);
 
 // --- Thiết lập path ---
 
-define('_PATH_URL', __DIR__);
+// define('_PATH_URL', __DIR__);
+function getCurrentPath() {
+    $trace = debug_backtrace();
+    $caller = end($trace);
+    return dirname($caller['file']);
+}

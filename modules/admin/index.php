@@ -1,3 +1,8 @@
+<?php 
+    require_once __DIR__ . '/../../core/config/config.php';
+    require_once getCurrentPath() . '/../../core/includes/connect.php'; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,9 +13,6 @@
 </head>
 
 <body>
-    <?php 
-    require_once __DIR__ . '/../../core/config/config.php';
-    ?>
     <h1>Trang admin</h1>
 </body>
 
