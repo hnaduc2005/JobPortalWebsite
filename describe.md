@@ -70,7 +70,7 @@ git branch -d feature/<-tên nhánh->     -> Xóa nhánh ở local (sau khi code
 
 2. Bảng Candidate_profiles:
 - id : int, auto inc, primary key
-- users_id : Users [ref, unique, required] -> khoá phụ tham chiếu đến bảng Users
+- user_id : Users [ref, unique, required] -> khoá phụ tham chiếu đến bảng Users
 - address : text, null
 - links : text, null -> các liên kết đến bên ngoài (fb, ig, github, ...)
 - avatar : varchar(200) -> đường dẫn đến ảnh
@@ -85,3 +85,75 @@ git branch -d feature/<-tên nhánh->     -> Xóa nhánh ở local (sau khi code
 - cv_files : varchar(250) -> link upload cv
 - created_at : datetime -> thời gian tạo 
 - updated_at : datetime -> cập nhật gần nhất
+
+3. Bảng Employer_profiles:
+- id : int, auto inc, primary key
+- user_id : Users [ref, unique, required] → liên kết 1-1 với bảng Users
+- company_name : varchar(150) → tên công ty
+- industry : text→ ngành nghề hoạt động
+- description : text, null → mô tả/giới thiệu công ty
+- address : text → địa chỉ trụ sở
+- website : text, null → trang web công ty
+- phone : char(15) → số điện thoại công ty
+- logo : varchar(200) → đường dẫn logo công ty
+- founded_year : year → năm thành lập
+- tax_code : varchar(20) → mã số thuế
+- contact_person : varchar(100) → người phụ trách tuyển dụng
+- contact_email : varchar(100) → email liên hệ tuyển dụng
+- size : varchar(50) → quy mô (VD: “50-100 nhân viên”)
+- created_at : datetime → thời gian tạo
+- updated_at : datetime → cập nhật gần nhất
+
+4. Bảng Recruitment_posts:
+- id : int, auto inc, primary key
+- user_id : Users [ref, required] → nhà tuyển dụng đăng tin
+- groups_id : Groups [ref, required] → nhóm ngành/lĩnh vực
+- title : varchar(255) → tiêu đề bài đăng
+- content : text → mô tả chi tiết công việc
+- salary_min : bigInt → mức lương tối thiểu (VNĐ)
+- salary_max : bigInt → mức lương tối đa
+- recruitment_area : text → khu vực làm việc (TP.HCM, Hà Nội, …)
+- experience_months_required : int → yêu cầu kinh nghiệm (tháng)
+- level_required : varchar(50), null → cấp độ (Junior/Senior/…)
+- employment_type : enum(full-time, part-time, remote) → hình thức làm việc 
+- location : varchar(150) → địa điểm làm việc cụ thể
+- benefits : text → phúc lợi
+- requirements : text → yêu cầu kỹ năng, học vấn
+- work_hours : varchar(100) → giờ làm việc
+- deadline : datetime → hạn nộp
+- status : char(1) → 0: chưa duyệt, 1: đã duyệt
+- is_hot : boolean → tin nổi bật (true/false)
+- quantity : int → số lượng tuyển
+- created_at : datetime → ngày tạo
+- updated_at : datetime → cập nhật
+
+5. Bảng Groups:
+- id : int, auto inc, primary key
+- name : varchar(100), required → tên ngành nghề
+- description : text → mô tả ngắn
+- slug : varchar(100) → nhãn đường dẫn
+
+6. Bảng Applications:
+- id : int, auto inc, primary key
+- candidate_id : Candidate_profiles [ref, required] → ứng viên
+- post_id : Recruitment_posts [ref, required] → tin tuyển dụng
+- cv_file : varchar(255) → CV đính kèm cho tin này (link download)
+- cover_letter : text, null → thư xin việc
+- status : enum('pending','reviewed','accepted','rejected') → trạng thái
+- applied_at : datetime → thời điểm nộp
+- updated_at : datetime → cập nhật trạng thái
+
+7. Bảng Saved_jobs:
+- id : int, auto inc, primary key
+- candidate_id : Candidate_profiles [ref, required] → ứng viên
+- post_id : Recruitment_posts [ref, required] → tin được lưu
+- saved_at : datetime → thời điểm lưu
+
+8. Bảng Notifications:
+- id : int, auto inc, primary key
+- user_id : Users [ref, required] → người nhận thông báo
+- title : varchar(255) → tiêu đề
+- message : text → nội dung
+- is_read : boolean → đã đọc hay chưa
+- created_at : datetime → thời điểm gửi
+
