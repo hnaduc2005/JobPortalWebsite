@@ -1,6 +1,7 @@
 <?php 
     require_once __DIR__ . '/../../core/config/config.php';
-    require_once getCurrentPath() . '/../../core/includes/connect.php'; 
+    require_once getCurrentPath() . '/../../core/includes/connect.php';
+    require_once getCurrentPath() . '/../../core/includes/database.php'; 
 ?>
 
 <!DOCTYPE html>
