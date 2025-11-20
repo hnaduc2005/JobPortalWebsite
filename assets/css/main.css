@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Lexend+Giga:wght@100..900&family=Lexend+Mega:wght@100..900&family=Lexend+Peta:wght@100..900&family=Lexend+Tera:wght@100..900&family=Lexend:wght@100..900&display=swap');
 
 /* footer */
 .footer{
@@ -29,11 +30,15 @@
 
 .flex-inner .inner-two .inner-two_container{
     display: flex;
-    gap: 20px;
+    gap: 25px;
 }
 
 .inner-two_container .inform-content a{
     color: white;
+}
+
+.inner-two_container .inform-content a:hover{
+    text-decoration: underline;
 }
 
 .flex-item .item-inform{
