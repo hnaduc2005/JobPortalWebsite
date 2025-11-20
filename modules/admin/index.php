@@ -1,20 +1,21 @@
 <?php 
-    require_once __DIR__ . '/../../core/config/config.php';
-    require_once getCurrentPath() . '/../../core/includes/connect.php';
-    require_once getCurrentPath() . '/../../core/includes/database.php'; 
-?>
+require_once __DIR__ . '/../../core/config/config.php';
+require_once __DIR__ . '/../../core/includes/connect.php';
+require_once __DIR__ . '/../../core/includes/database.php'; 
 
-<!DOCTYPE html>
-<html lang="en">
+const _ACTION = 'dashboard';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+// Lấy action
+$action = $_GET['action'] ?? _ACTION;
 
-<body>
-    <h1>Trang admin</h1>
-</body>
+// Tạo đường dẫn view
+$viewPath = __DIR__ . '/views/' . $action . '.php';
 
-</html>
+// Nếu view tồn tại → load
+if (file_exists($viewPath)) {
+    require_once $viewPath;
+} 
+// Nếu view không tồn tại → 404
+else {
+    require_once __DIR__ . '/../errors/404.php';
+}
