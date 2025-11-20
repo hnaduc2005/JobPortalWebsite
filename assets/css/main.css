@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Lexend+Giga:wght@100..900&family=Lexend+Mega:wght@100..900&family=Lexend+Peta:wght@100..900&family=Lexend+Tera:wght@100..900&family=Lexend:wght@100..900&display=swap');
+
+/*Sẵn có*/
+:root{
+    --color-header-footer-text:#451DA0;
+    --color-dark_gray-text:#414045;
+    --color-gray-text:#939295;
+    --color-blue:#2C95FF;
+    --color-purple-text:#8B5CF6;
+    --color-dark_purple-text:#341678;
+}
+
+*{
+     box-sizing: border-box;
+     margin: 0;
+     padding: 0;
+     text-decoration: none;
+     border: none;
+     outline: none;
+     scroll-behavior: smooth;
+     font-family: "Lexend", sans-serif;
+     list-style: none;
+     scroll-margin-top: 90px;
+}
+
+.container{
+    width:100%;
+    max-width: 1340px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* footer */
+.footer{
+    background-color: var(--color-header-footer-text);
+    color:white;
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 15px 0;
+
+}
+
+.footer .title{
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.footer .flex-inner{
+    display: flex;
+    gap: 40px;
+    justify-content: space-between;
+    /* border-bottom: 1px solid white; */
+    margin-bottom: 25px;
+}
+
+.flex-inner .inner-one{
+    font-weight: 300;
+}
+
+.flex-inner .inner-two .inner-two_container{
+    display: flex;
+    gap: 20px;
+}
+
+.inner-two_container .inform-content a{
+    color: white;
+}
+
+.flex-item .item-inform{
+    margin-bottom: 40px;
+    margin-right: 5px;
+}
+
+.flex-item .item-inform a{
+    padding: 10px 6px;
+    background-color: white;
+    border-radius: 8px;
+    margin-right: 3px;
+}
+
+.flex-item .item-inform a:last-child{
+    margin-right: -1px;
+}
+
+.item-inform a i{
+    font-size: 19px;
+    font-weight: bold;
+}
+
+.flex-item .statue .down_app{
+    display: flex;
+}
+
+.down_app .qr-code img{
+    width: 80px;
+    height: 80px;
+    margin-right: 15px;
+}
+
+.down_app .button{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.down_app button img{
+    width: 115px;
+    height: 33px;
+}
+
+.inner-wrapper .hr{
+    width: 100%;
+    height: 1px;
+    background-color: white;
+}
+
+.end-footer{
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+}
+.end-footer img{
+    width: 79px;
+    height: 28px;
+    margin-right: 10px;
+}
+
+/* End footer */
