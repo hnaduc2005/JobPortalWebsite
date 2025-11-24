@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../../core/templates/header.php'; ?>
+<?php include './core/templates/header.php'; ?>
 
 <!-- BEGIN HEADER -->
 <nav class="navbar">
