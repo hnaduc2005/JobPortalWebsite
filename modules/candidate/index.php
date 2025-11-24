@@ -1,28 +1,23 @@
-<?php
-// modules/candidate/index.php
-
-// Load core (đường dẫn điều chỉnh theo dự án)
+<?php 
 require_once __DIR__ . '/../../core/config/config.php';
 require_once __DIR__ . '/../../core/includes/connect.php';
-require_once __DIR__ . '/../../core/includes/database.php';
+require_once __DIR__ . '/../../core/includes/database.php'; 
 
-// default action
-$defaultAction = 'homepage';
+const _ACTION = 'homepage';
 
-// Lấy action từ query (nếu có)
-$action = $_GET['action'] ?? $defaultAction;
+// Lấy action
+$action = $_GET['action'] ?? _ACTION;
 
-// Build path tới view
-$viewFile = __DIR__ . '/views/' . basename($action) . '.php';
+// Tạo đường dẫn view
+$viewPath = __DIR__ . '/views/' . $action . '.php';
 
-// Kiểm tra và include view
-if (file_exists($viewFile)) {
-    // nếu muốn include header/footer global:
-    require_once __DIR__ . '/../../core/templates/header.php';
-    require_once $viewFile;
-    require_once __DIR__ . '/../../core/templates/footer.php';
-} else {
-    // 404 của module hoặc include chung
-    http_response_code(404);
+// Nếu view tồn tại → load
+if (file_exists($viewPath)) {
+    require_once getCurrentPath() . '/core/templates/header.php';
+    require_once $viewPath;
+    require_once getCurrentPath() . '/core/templates/footer.php';
+} 
+// Nếu view không tồn tại → 404
+else {
     require_once __DIR__ . '/../errors/404.php';
 }
