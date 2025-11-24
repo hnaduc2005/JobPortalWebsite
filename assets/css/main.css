@@ -1,5 +1,234 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&family=Lexend+Giga:wght@100..900&family=Lexend+Mega:wght@100..900&family=Lexend+Peta:wght@100..900&family=Lexend+Tera:wght@100..900&family=Lexend:wght@100..900&display=swap');
 
+/* header */
+.header {
+    background-color: var(--color-header-footer-text) ;
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+    top:0;
+    left:0;
+}
+
+.header .inner-wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inner-wrapper .inner-left{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.inner-left .inner_logo{
+    margin-right: 65px;
+}
+
+.inner-left .inner_logo img{
+    width:150px;
+    height:38px;
+}
+
+header .inner-left .inner_drop_down{
+    display: flex;
+    /* gap: 30px; */
+    align-items: center;
+    font-size: 14px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    border-left: 1px solid var(--color-blue);
+}
+
+header .inner_drop_down .inner{
+    padding:20px 15px;
+}
+
+header .title{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+header .inner {
+    position: relative;
+}
+
+.submenu-main {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    padding: 0.5rem 0;
+    border-radius: 8px;
+    width: 260px;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: black;
+    z-index: 9999;
+    border: 2px solid var(--color-blue);
+}
+
+header .inner:hover{
+    background-color: #2F0D7B;
+}
+.inner-one:hover .submenu-main {
+    display: block;
+}
+.submenu-main li {
+    padding: 10px 12px;
+    white-space: nowrap;
+}
+
+.submenu-main li:hover {
+    background: #E4F1FE;
+    color: var(--color-blue);
+}
+
+
+/* submenu con */
+.has-child {
+    position: relative;
+   color: black;
+}
+
+.has-child .submenu-listchild {
+    padding: 0.5rem 0;
+    width: 240px;
+    border-radius: 8px;
+    display: none;
+    margin-top: 10px;
+}
+
+.has-child.open .submenu-listchild {
+    display: block;
+}
+.has-child .submenu-listchild a:hover{
+    background-color: #E4F1FE;
+    color: var(--color-blue);
+}
+
+.has-child .click{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom: 10px; */
+}
+.submenu-listchild i{
+    font-size: 5px;
+    margin-right: 3px;
+}
+
+.inner-two:hover .submenu-main {
+    display: block;
+}
+
+.inner_drop_down a{
+    color: black;
+}
+
+.inner-right{
+    display: flex;
+    align-items: center;
+}
+
+.inner-right .inner-item{
+    display: flex;
+    align-items: center;
+    background-color: none;
+}
+
+.inner-right  .inner-item .item button{
+    background-color: transparent;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.inner-right  .inner-item .item-one button i{
+    font-size: 20px;
+    color: white;
+    padding: 8px;
+}
+
+.inner-right  .inner-item .item-two{
+    margin-left: 10px;
+}
+.inner-right  .inner-item .item-two button{
+    display: flex;
+    align-items: center;
+    color: white;
+    justify-content: space-between;
+}
+.item-two button img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.inner-right .inner-translate img{
+    width: 26px;
+    height: 16px;
+}
+
+.item-two{
+    position: relative;
+}
+
+.submenu-main {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fff;
+    padding: 0.5rem 0;
+    border-radius: 8px;
+    width: 260px;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: black;
+    z-index: 9999;
+    border: 2px solid var(--color-blue);
+}
+
+.item-two:hover{
+    background-color: #2F0D7B;
+}
+.item-two:hover .submenu-main {
+    display: block;
+}
+.submenu-main li {
+    padding: 10px 12px;
+    white-space: nowrap;
+}
+
+.submenu-main li:hover {
+    background: #E4F1FE;
+    color: var(--color-blue);
+}
+
+.inner-right .inner-item .item-one{
+    padding-left: 8px;
+    border-radius: 50%;
+}
+
+.inner-right .inner-item .item-two{
+    padding: 13px 15px;
+}
+
+.inner-right .inner-item .item:hover{
+    background-color: var(--color-dark_purple-text);
+}
+
+.inner-right .inner-translate:hover{
+    background-color: var(--color-dark_purple-text);
+}
+
+.inner-right .inner-translate{
+    padding: 5px;
+    border-radius: 5px;
+}
+/* End header */
+
 /* footer */
 .footer{
     background-color: var(--color-header-footer-text);
@@ -7,8 +236,12 @@
     font-size: 13px;
     line-height: 1.6;
     padding: 15px 0;
-
+    /* position: fixed; */
+    bottom: 0;
+    width: 100%;
+    z-index: 9999;
 }
+
 
 .footer .title{
     font-size: 14px;
@@ -98,5 +331,325 @@
     height: 28px;
     margin-right: 10px;
 }
-
 /* End footer */
+
+/* Trang Saved_job.php */
+main .inner-wrapper {
+    display: flex;
+    gap: 30px;
+    padding: 40px 0;
+}
+
+main .inner-wrapper .sidebar {
+    width: 280px;
+    min-width: 260px;
+    border: 1px solid #E5E5E5;
+    background-color: #f2f1f1;
+    border-radius: 8px;
+    padding: 20px;
+    height: fit-content;
+    position: sticky;
+    top: 60px;
+    height: fit-content;
+
+
+}
+
+.sidebar .username {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-dark_gray-text);
+    margin-bottom: 25px;
+}
+
+.submenu-main-content li {
+    padding: 12px 10px;
+    font-size: 14px;
+    color: var(--color-dark_gray-text);
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+/* submenu con */
+.submenu-main-content .has-child-one {
+    position: relative;
+   color: black;
+}
+
+.submenu-main-content .submenu-listchild-contetnt {
+    padding: 0.5rem 0;
+    width: 100%;       /* để không phình ra */
+    border-radius: 8px;
+    display: none;
+    margin-top: 10px;
+}
+
+.has-child-one.opend .submenu-listchild-contetnt {
+    display: block;
+}
+.has-child-one .submenu-listchild-contetnt a:hover{
+    background-color: #E4F1FE;
+    color: var(--color-blue);
+}
+
+.has-child-one .clickd{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom: 10px; */
+}
+.submenu-listchild-contetnt i{
+    font-size: 5px;
+    margin-right: 3px;
+}
+
+.submenu-listchild-contetnt li a{
+    white-space: nowrap; /* không xuống dòng */
+    display: block;
+}
+main .content{
+    flex: 1;}
+main .content .content-one{
+    padding: 16px 28px;
+    background-color: #f2f1f1;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+main .content .content-one span{
+    color: black;
+    font-weight: 800;
+}
+
+.content .content-two{
+    border-radius: 8px;
+    background-color: #f2f1f1;
+    margin-bottom: 15px;
+}
+
+.content .content-two .title{
+    margin-bottom: 10px;
+}
+
+.content .content-two .title-one{
+    color: black;
+    font-weight: 800;
+}
+main .content .content-two .title{
+    padding: 16px 28px;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+main .content .content-two .display-inform{
+    padding: 16px 28px;
+}
+
+.content-two .display-inform .status-inform{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.content-two .display-inform .desc-inform{
+    text-align: center;
+    color: var(--color-dark_gray-text);
+    margin-bottom: 55px;
+}
+
+.content-two .display-inform .desc-inform img{
+    width: 332px;
+    height: auto;
+    margin-bottom: 15px;
+}
+/* Lưới công việc */
+.content-three{
+    background-color: #f2f1f1;
+    padding: 10px;
+}
+
+.content-three .title{
+    font-size: 24px;
+    font-weight: 700;
+}
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 cột */
+    gap: 16px; /* Khoảng cách giữa các thẻ */
+    margin-top: 15px;
+}
+
+/* Style cho card */
+.job-card {
+    display: block;
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #e6e6e6;
+    transition: 0.2s;
+    color: black;
+}
+
+.job-card:hover {
+    border-color: #b4b4b4;
+    box-shadow: 0 2px 10px rgba(80, 103, 157, 0.05);
+    cursor: pointer;
+}
+
+/* Khối inner-two */
+.job-grid .inner-two {
+    display: grid;
+    grid-template-columns: 60px 1fr auto; /* ảnh - nội dung - vị trí */
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.job-grid .inner:hover{
+    background-color: none;
+}
+
+.job-grid .inner-two .image img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+.job-grid .inner-two .introduce h3 {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+/* Countdown */
+.job-grid .coundown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.job-grid .inner .major{
+    display: flex;
+    justify-content: space-between;
+}
+
+.job-grid .introduce{
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+}
+
+.job-grid .hr{
+    width: 100%;
+    height: 1px;
+    background-color: #e5e5e5;
+    margin: 15px 0;
+}
+/* End Trang Saved_job.php */
+
+/* Trang account_manage */
+
+.con-one {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.con-one .inner-wrapper {
+    width: 800px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 25px 35px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.con-one .title-account h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+}
+
+.con-one .item-account {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.con-one .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    background: #fafafa;
+    border-radius: 12px;
+}
+
+.con-one .item-one {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.con-one .type-inform {
+    font-size: 15px;
+    color: #6d6d6d;
+}
+
+.con-one .display-inform {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.con-one .in4 {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Tick xanh */
+.con-one .tick i {
+    color: #24a148;
+    font-size: 18px;
+}
+
+/* Icon lỗi */
+.con-one .error i {
+    color: #f39c12;
+    font-size: 18px;
+}
+
+/* Xác thực ngay */
+.con-one .authentic {
+    margin-top: 4px;
+    color: #2471ff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.con-one .authentic:hover {
+    text-decoration: underline;
+}
+
+/* Nút chỉnh sửa */
+.con-one .item button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #f5e7ff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: #7a1bb3;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.con-one .item button:hover {
+    background: #e9d5ff;
+}
+
+/* End Trang account_manage */
