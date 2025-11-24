@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="./assets/css/reset.css">
     <link rel="stylesheet" href="./assets/css/base.css">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/candidate/homePage.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@icon/themify-icons@1.0.1-alpha.3/themify-icons.min.css">
     <title>Header</title>
 </head>
 
@@ -18,7 +20,7 @@
             <div class="inner-wrapper">
                 <div class="inner-left">
                     <div class="inner_logo">
-                        <a href="#"><img src="../../assets/images/logo1.png" alt="logo"></a>
+                        <a href="#"><img src="./assets/images/logo1.png" alt="logo"></a>
                     </div>
                     <div class="inner_drop_down">
                         <div class="inner inner-one">
@@ -66,7 +68,7 @@
 
                         <div class="item item-two">
                             <button>
-                                <img src="../../assets/images/reference_logo.png" alt="personal logo">
+                                <img src="./assets/images/reference_logo.png" alt="personal logo">
                                 <span>Suu</span>
                                 <i class="fa-solid fa-caret-down"></i>
                             </button>
