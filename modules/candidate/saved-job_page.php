@@ -18,11 +18,11 @@
                             <li><a href="./applied-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
                             <li><a href="./saved-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
                             <li><a href="./wait-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
-                            <li><a href="#"><i class="fa-solid fa-circle"></i> Nhà tuyển dụng xem hồ sơ</a></li>
+                            <li><a href=""><i class="fa-solid fa-circle"></i> Nhà tuyển dụng xem hồ sơ</a></li>
                         </ul>
                     </div>
                 </li>
-                <li><a href=""></a><i class="fa-regular fa-circle-user"></i>Quản lý tài khoản</li>
+                <li><a href="./account_manage.php"><i class="fa-solid fa-circle"></i> Quản lý tài khoản</a></li>
             </ul>
         </aside>
 
@@ -168,7 +168,7 @@
                         </div>
                     </a>
 
-                    <a href="#" class="job-card" >
+                    <a href="#" class="job-card">
                         <div class="inner">
                             <div class="major"><span>Trưởng phòng hành chính nhân sự</span> <i class="fa-regular fa-heart"></i></div>
                         </div>

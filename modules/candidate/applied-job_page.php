@@ -22,7 +22,7 @@
                         </ul>
                     </div>
                 </li>
-                <li><i class="fa-regular fa-circle-user"></i>Quản lý tài khoản</li>
+                <li><a href="./account_manage.php"><i class="fa-solid fa-circle"></i> Quản lý tài khoản</a></li>
             </ul>
         </aside>
 
