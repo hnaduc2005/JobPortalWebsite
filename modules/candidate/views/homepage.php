@@ -1,43 +1,4 @@
-<?php require_once getCurrentPath() . '/../../core/templates/header.php'; ?>
-
-<!-- BEGIN HEADER -->
-<nav class="navbar">
-    <div class="navbar-left">
-        <a href="#" class="logo-link">
-            <div class="logo">TìmViệcLàm</div>
-            <div class="slogan">NHANH HƠN,DỄ DÀNG HƠN</div>
-        </a>
-    </div>
-
-    <ul class="nav-menu">
-        <li class="nav-item has-dropdown">
-            <a href="#">Việc làm <span class="arrow">▼</span></a>
-        </li>
-        <li class="nav-item has-dropdown">
-            <a href="#">Công cụ <span class="arrow">▼</span></a>
-        </li>
-        <li class="nav-item">
-            <a href="#">Cẩm nang nghề nghiệp</a>
-        </li>
-    </ul>
-
-    <div class="navbar-right">
-        <div class="user-area">
-            <div class="user-text">Người tìm việc</div>
-            <a href="#" class="auth-link">Đăng ký/Đăng nhập</a>
-        </div>
-        <div class="employer-area">
-            <div class="employer-text">DÀNH CHO</div>
-            <a href="#" class="recruiter-link">
-                Nhà Tuyển Dụng
-            </a>
-        </div>
-        <div class="language-select">
-            <img src="https://flagcdn.com/w20/us.png" alt="English" class="flag-icon">
-        </div>
-    </div>
-</nav>
-<!-- END HEADER -->
+<?php require_once getCurrentPath() . '/core/templates/header.php'; ?>
 
 <!-- SEARCH AND BANNER -->
     <div class="search-section">

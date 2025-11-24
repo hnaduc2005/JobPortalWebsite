@@ -1,9 +1,9 @@
 <?php
 // --- Cấu hình database ---
-define('DB_HOST', '103.255.237.26');
+define('DB_HOST', 'localhost');
 define('DB_NAME', 'timvieci_job_portal');
-define('DB_USER', 'timvieci_hnaduc2005');
-define('DB_PASS', 'VKGMJ;4@I{wM');
+define('DB_USER', 'root');
+define('DB_PASS', '');
 define('DB_PORT', '3306');
 define('DB_DRIVER', 'mysql');
 
