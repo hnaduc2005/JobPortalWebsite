@@ -1,4 +1,4 @@
-<?php include './core/templates/header.php'; ?>
+<?php require_once getCurrentPath() . '/../../core/templates/header.php'; ?>
 
 <!-- BEGIN HEADER -->
 <nav class="navbar">

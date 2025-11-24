@@ -1,6 +1,6 @@
 <?php
 // --- Cấu hình database ---
-define('DB_HOST', '103.255.237.26');
+define('DB_HOST', 'localhost');
 define('DB_NAME', 'timvieci_job_portal');
 define('DB_USER', 'root');
 define('DB_PASS', '');
@@ -37,3 +37,4 @@ function getCurrentPath() {
     $caller = end($trace);
     return dirname($caller['file']);
 }
+

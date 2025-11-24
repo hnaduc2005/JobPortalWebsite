@@ -1,3 +1,4 @@
+</main>
 <footer class="footer">
     <div class="container">
         <div class="inner-wrapper">
@@ -71,6 +72,7 @@
             </div>
         </div>
     </div>
+    <script src="/JobPortalWebsite/assets/js/main.js"></script>
 </footer>
 </body>
 
