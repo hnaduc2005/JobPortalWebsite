@@ -37,3 +37,4 @@ function getCurrentPath() {
     $caller = end($trace);
     return dirname($caller['file']);
 }
+
