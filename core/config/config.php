@@ -14,7 +14,6 @@ const _USER = 'root';
 const _PASS = 'hnaduc05';
 const _DRIVER = 'mysql';
 
-
 // --- Thiết lập chung ---
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 session_start();

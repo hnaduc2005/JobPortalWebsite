@@ -1,4 +1,3 @@
-<?php require_once getCurrentPath() . '/core/templates/header.php'; ?>
 
 <!-- SEARCH AND BANNER -->
     <div class="search-section">
@@ -584,6 +583,3 @@
 
     </div>
 </div>
-
-
-<?php include './core/templates/footer.php'; ?>
