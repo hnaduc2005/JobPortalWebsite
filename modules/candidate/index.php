@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../core/config/config.php';
 require_once __DIR__ . '/../../core/includes/connect.php';
 require_once __DIR__ . '/../../core/includes/database.php'; 
+require_once __DIR__ . '/../../core/includes/session.php';
 
 const _ACTION = 'homepage';
 
