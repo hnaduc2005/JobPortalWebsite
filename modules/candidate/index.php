@@ -4,7 +4,7 @@ require_once __DIR__ . '/../../core/includes/connect.php';
 require_once __DIR__ . '/../../core/includes/database.php'; 
 require_once __DIR__ . '/../../core/includes/session.php';
 
-const _ACTION = 'homepage';
+const _ACTION = 'My_portfolio';
 
 // Lấy action
 $action = $_GET['action'] ?? _ACTION;
@@ -14,11 +14,16 @@ $viewPath = __DIR__ . '/views/' . $action . '.php';
 
 // Nếu view tồn tại → load
 if (file_exists($viewPath)) {
-    require_once getCurrentPath() . '/core/templates/header.php';
+
+    // include header
+    require_once __DIR__ . '/../../core/templates/header.php';
+
+    // include view
     require_once $viewPath;
-    require_once getCurrentPath() . '/core/templates/footer.php';
+
+    // include footer
+    require_once __DIR__ . '/../../core/templates/footer.php';
 } 
-// Nếu view không tồn tại → 404
 else {
-    require_once __DIR__ . '/../errors/404.php';
+    require_once __DIR__ . '/../../errors/404.php';
 }
