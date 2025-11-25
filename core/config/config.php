@@ -3,13 +3,9 @@
 define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'timvieci_job_portal');
 define('DB_USER', 'root');
-define('DB_PASS', 'VKGMJ;4@I{wM');
-// define('DB_HOST', 'localhost');
-// define('DB_NAME', 'timvieci_job_portal');
-// define('DB_USER', 'root');
-// define('DB_PASS', '');
-// define('DB_PORT', '3306');
-// define('DB_DRIVER', 'mysql');
+define('DB_PASS', '');
+define('DB_PORT', '3307');
+define('DB_DRIVER', 'mysql');
 
 
 // --- Thiết lập chung ---
