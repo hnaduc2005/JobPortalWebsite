@@ -72,8 +72,17 @@
             </div>
         </div>
     </div>
-    <script src="/JobPortalWebsite/assets/js/main.js"></script>
 </footer>
+    <script src="/JobPortalWebsite/assets/js/main.js"></script>
+    <script>
+        const showLogin = document.querySelector('.text-white-1');
+        if (showLogin) {
+            showLogin.addEventListener("click", function() {
+                //gán URL cho thuộc tính window.location.href
+                window.location.href = "<?php echo BASE_URL;?>?module=candidate&action=login";
+            });
+        }
+    </script>
 </body>
 
 </html>

@@ -13,26 +13,13 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('https://images.unsplash.com/photo-1557683316-973673baf926?w=1920&q=80') center/cover no-repeat fixed;
+            background: url(https://cdn1.vieclam24h.vn/images/public/2024/05/15/bg_171576434650.png) no-repeat;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
             position: relative;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 0;
         }
 
         .login-container {
@@ -209,7 +196,7 @@
 <body>
     <div class="login-container">
         <div class="login-header">
-            <h1>Chào mừng trở lại!</h1>
+            <h1>Ứng viên đăng nhập</h1>
             <p>Đăng nhập để tiếp tục</p>
         </div>
 
