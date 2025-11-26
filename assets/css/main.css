@@ -152,6 +152,7 @@ header .inner:hover{
 
 .inner-right .inner-item .text-white-1:hover{
     background-color: #2F0D7B;
+    cursor: pointer;
 }
 
 .inner-right .text-inform{
@@ -180,6 +181,7 @@ header .inner:hover{
 }
 .inner-right .inner-item .text-white-2:hover{
     background-color: #2F0D7B;
+    cursor: pointer;
 }
 
     /*Cái này là css sau khi đăng nhập vào và thay đổi  */
@@ -213,6 +215,10 @@ header .inner:hover{
 .inner-right .inner-translate img{
     width: 29px;
     height: 21px;
+}
+
+.inner-right .inner-translate:hover {
+    cursor: pointer;
 }
 
 .item-two{
