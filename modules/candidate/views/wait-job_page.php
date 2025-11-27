@@ -1,4 +1,5 @@
-<?php include __DIR__ . '/../../core/templates/candidate_header.php'; ?>
+<?php require_once getCurrentPath() . '/core/templates/candidate_header.php'; ?>
+
 <div class="container">
     <div class="inner-wrapper">
         <aside class="sidebar">
@@ -41,4 +42,4 @@
 </div>
 </div>
 
-<?php include __DIR__ . '/../../core/templates/candidate_footer.php'; ?>
+<?php require_once getCurrentPath() . '/core/templates/candidate_footer.php'; ?>

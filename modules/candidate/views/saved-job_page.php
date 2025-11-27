@@ -1,4 +1,4 @@
-<?php include __DIR__ . '/../../core/templates/candidate_header.php'; ?>
+<?php require_once getCurrentPath() . '/core/templates/candidate_header.php'; ?>
 
 <!--  Nội dung trang savejob -->
 <div class="container ">
@@ -196,5 +196,4 @@
     </div>
 </div>
 
-
-<?php include __DIR__ . '/../../core/templates/candidate_footer.php'; ?>
+<?php require_once getCurrentPath() . '/core/templates/candidate_footer.php'; ?>

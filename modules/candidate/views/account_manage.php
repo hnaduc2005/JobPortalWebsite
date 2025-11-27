@@ -1,4 +1,4 @@
-<?php include __DIR__ . '/../../core/templates/candidate_header.php'; ?>
+<?php require_once getCurrentPath() . '/core/templates/candidate_header.php'; ?>
 
 <div class="container con-one">
     <div class="inner-wrapper">
