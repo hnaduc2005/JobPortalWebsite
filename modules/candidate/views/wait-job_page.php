@@ -1,4 +1,4 @@
-<?php include __DIR__ . '/../../core/templates/header.php'; ?>
+<?php include __DIR__ . '/../../core/templates/candidate_header.php'; ?>
 <div class="container">
     <div class="inner-wrapper">
         <aside class="sidebar">
@@ -41,4 +41,4 @@
 </div>
 </div>
 
-<?php include __DIR__ . '/../../core/templates/footer.php'; ?>
+<?php include __DIR__ . '/../../core/templates/candidate_footer.php'; ?>

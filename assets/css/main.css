@@ -132,8 +132,7 @@ header .inner:hover{
     display: flex;
     align-items: center;
 }
-    /*Phần code khi chưa đăng ký ngoài giao diện*/
-
+/*Phần code khi chưa đăng ký ngoài giao diện*/
 .inner-right .inner-item{
     display: flex;
     align-items: center;
@@ -182,6 +181,27 @@ header .inner:hover{
 .inner-right .inner-item .text-white-2:hover{
     background-color: #2F0D7B;
     cursor: pointer;
+}
+
+.text-white-1, .text-white-2 {
+    position: relative;
+    cursor: pointer;
+}
+
+.text-white-1 .text-register,
+.text-white-2 .text-register {
+    position: static;
+}
+
+.text-white-1 .text-register::after,
+.text-white-2 .text-register::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
 }
 
     /*Cái này là css sau khi đăng nhập vào và thay đổi  */

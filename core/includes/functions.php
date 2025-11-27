@@ -76,4 +76,47 @@ function errorMessage($errorsArr, $inputName) {
         '</div>';
     }
 }
-?>
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+// Hàm gửi Mail
+function sendMail($emailTo, $subject, $content) {
+ 
+    $mail = new PHPMailer(true);
+
+    try {
+        //Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;                      
+        $mail->isSMTP();                                            
+        $mail->Host       = 'smtp.gmail.com';                     
+        $mail->SMTPAuth   = true;                                   
+        $mail->Username   = 'voduykhanh.6275@gmail.com';                     
+        $mail->Password   = 'cwjkmibvqbtvsmln';                               
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
+        $mail->Port       = 465;                                    
+
+        //Recipients
+        $mail->setFrom('voduykhanh.6275@gmail.com', 'Job Portal');
+        $mail->addAddress($emailTo);     //Add a recipient
+
+        //Content
+        $mail->CharSet = 'UTF-8';
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = $subject;
+        $mail->Body    = $content;
+
+        $mail->SMTPOptions = array(
+            'ssl' => [
+                'verify_peer' => true,
+                'verify_depth' => 3,
+                'allow_self_signed' => true,
+            ],
+        );
+
+        return $mail->send();
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+}

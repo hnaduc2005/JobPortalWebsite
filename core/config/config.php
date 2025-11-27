@@ -8,15 +8,17 @@
 // define('DB_DRIVER', 'mysql');
 
 // Khai báo database
-const _HOST = '127.0.0.1:3307';
+const _HOST = 'localhost';
 const _DB = 'timvieci_job_portal';
 const _USER = 'root';
-const _PASS = 'hnaduc05';
+const _PASS = '';
 const _DRIVER = 'mysql';
 
 // --- Thiết lập chung ---
 date_default_timezone_set('Asia/Ho_Chi_Minh');
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ob_start();
 
 // --- Kiểm tra truy cập hợp lệ ---
