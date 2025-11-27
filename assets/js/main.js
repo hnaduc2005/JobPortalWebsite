@@ -34,56 +34,71 @@ let pendingSetProvince = null; // dùng để set province sau khi load xong
 let pendingSetDistrict = null;
 
 /* ---------- load provinces ---------- */
-fetch("https://provinces.open-api.vn/api/p/")
-  .then(res => res.json())
-  .then(data => {
-    const selectTinh = document.getElementById("tinh");
-    // giữ option mặc định
-    selectTinh.innerHTML = '<option value="">Chọn tỉnh thành</option>';
-    data.forEach(item => {
-      const o = document.createElement("option");
-      o.value = item.code;        // mã
-      o.textContent = item.name;  // tên
-      selectTinh.appendChild(o);
-    });
-    provincesLoaded = true;
+const selectTinh = document.getElementById("tinh");
 
-    // nếu có pending (người dùng đã có tỉnh lưu trong session)
-    if (pendingSetProvince) {
-      selectTinh.value = pendingSetProvince;
-      // tự trigger change để load huyện
-      const evt = new Event('change');
-      selectTinh.dispatchEvent(evt);
-    }
-  })
-  .catch(err => console.error("Load provinces failed:", err));
-
-/* ---------- load districts on change ---------- */
-document.getElementById("tinh").addEventListener("change", function () {
-  const provinceID = this.value;
-  const selectHuyen = document.getElementById("huyen");
-  selectHuyen.innerHTML = '<option value="">Chọn quận huyện</option>';
-
-  if (!provinceID) return;
-
-  fetch(`https://provinces.open-api.vn/api/p/${provinceID}?depth=2`)
+if (selectTinh) {
+  fetch("https://provinces.open-api.vn/api/p/")
     .then(res => res.json())
     .then(data => {
-      data.districts.forEach(item => {
+      selectTinh.innerHTML = '<option value="">Chọn tỉnh thành</option>';
+
+      data.forEach(item => {
         const o = document.createElement("option");
         o.value = item.code;
         o.textContent = item.name;
-        selectHuyen.appendChild(o);
+        selectTinh.appendChild(o);
       });
 
-      // nếu có pending district (đang chờ set từ session), set nó
-      if (pendingSetDistrict) {
-        selectHuyen.value = pendingSetDistrict;
-        pendingSetDistrict = null;
+      provincesLoaded = true;
+
+      // nếu có pending province
+      if (pendingSetProvince) {
+        selectTinh.value = pendingSetProvince;
+        selectTinh.dispatchEvent(new Event("change"));
       }
     })
-    .catch(err => console.error("Load districts failed:", err));
-});
+    .catch(err => console.error("Load provinces failed:", err));
+} else {
+  console.warn("Không tìm thấy #tinh – bỏ qua load provinces.");
+}
+
+
+/* ---------- load districts on change ---------- */
+if (selectTinh) {
+  selectTinh.addEventListener("change", function () {
+    const provinceID = this.value;
+    const selectHuyen = document.getElementById("huyen");
+
+    if (!selectHuyen) {
+      console.warn("Không tìm thấy #huyen – bỏ qua load districts.");
+      return;
+    }
+
+    selectHuyen.innerHTML = '<option value="">Chọn quận huyện</option>';
+
+    if (!provinceID) return;
+
+    fetch(`https://provinces.open-api.vn/api/p/${provinceID}?depth=2`)
+      .then(res => res.json())
+      .then(data => {
+        data.districts.forEach(item => {
+          const o = document.createElement("option");
+          o.value = item.code;
+          o.textContent = item.name;
+          selectHuyen.appendChild(o);
+        });
+
+        if (pendingSetDistrict) {
+          selectHuyen.value = pendingSetDistrict;
+          pendingSetDistrict = null;
+        }
+      })
+      .catch(err => console.error("Load districts failed:", err));
+  });
+} else {
+  console.warn("Không thể gắn sự kiện change vì thiếu #tinh");
+}
+
 
 /* ---------- open modal: load form values ---------- */
 openBtns.forEach(btn => {
@@ -516,9 +531,6 @@ document.getElementById("saveWorkExp").onclick = function () {
 };
 
 //6. Popup học vấn:
-/* ============================
-        POPUP HỌC VẤN
-============================ */
 // Mở popup
 document.querySelector(".item-5 .edit-btn").addEventListener("click", () => {
     document.getElementById("modalEdu").style.display = "flex";
@@ -681,6 +693,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+//8. popup ứng tuyển:
 
 
 
