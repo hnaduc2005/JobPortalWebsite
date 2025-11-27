@@ -72,6 +72,7 @@
             </div>
         </div>
     </div>
+    
     <script src="/JobPortalWebsite/assets/js/main.js"></script>
 </footer>
 </body>
