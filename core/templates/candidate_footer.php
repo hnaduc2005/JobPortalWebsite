@@ -72,7 +72,6 @@
             </div>
         </div>
     </div>
-</footer>
     <script src="/JobPortalWebsite/assets/js/main.js"></script>
     <script>
         const showLogin = document.querySelector('.text-white-1');
