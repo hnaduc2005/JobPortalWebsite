@@ -1,4 +1,4 @@
-<!-- <?php include __DIR__ . '/../../core/templates/header.php'; ?> -->
+<?php include __DIR__ . '/../../core/templates/candidate_header.php'; ?>
 
 <!--  Nội dung trang savejob -->
 <div class="container ">
@@ -197,4 +197,4 @@
 </div>
 
 
-<!-- <?php include __DIR__ . '/../../core/templates/footer.php'; ?> -->
+<?php include __DIR__ . '/../../core/templates/candidate_footer.php'; ?>

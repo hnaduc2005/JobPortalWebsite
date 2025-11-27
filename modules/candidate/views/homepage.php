@@ -1,3 +1,4 @@
+<?php require_once getCurrentPath() . '/core/templates/candidate_header.php'; ?>
 
 <!-- SEARCH AND BANNER -->
     <div class="search-section">
@@ -583,3 +584,5 @@
 
     </div>
 </div>
+
+<?php require_once getCurrentPath() . '/core/templates/candidate_footer.php'; ?>

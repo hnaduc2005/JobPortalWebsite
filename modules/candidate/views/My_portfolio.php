@@ -1,3 +1,4 @@
+<?php include   'JobPortalWebsite/core/templates.candidate_header.php'; ?>
 <!-- Nội Dung Trang hồ sơ của tôi -->
 <section class="My_portfolio">
     <div class="container">
@@ -246,45 +247,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="desc-wrapper">
-                            <div class="item-4">
-                                <div class="title-jobfind">
-                                    <h2>Dự án/thành tựu</h2>
-                                    <div class="icon"><i class="fa-regular fa-pen-to-square"></i></div>
-                                </div>
-                                <div class="hr"></div>
-                                <div class="content">
-                                    <p>Nổi bật hơn trong mắt nhà tuyển dụng với các dự án, thành tựu</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="desc-wrapper">
-                            <div class="item-4">
-                                <div class="title-jobfind">
-                                    <h2>Chứng chỉ/bằng cấp</h2>
-                                    <div class="icon"><i class="fa-regular fa-pen-to-square"></i></div>
-                                </div>
-                                <div class="hr"></div>
-                                <div class="content">
-                                    <p>Thêm các chứng chỉ hoặc bằng cấp công việc của bạn</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="desc-wrapper">
-                            <div class="item-4">
-                                <div class="title-jobfind">
-                                    <h2>Ngoại ngữ</h2>
-                                    <div class="icon"><i class="fa-regular fa-pen-to-square"></i></div>
-                                </div>
-                                <div class="hr"></div>
-                                <div class="content">
-                                    <p>Thêm thông tin khả năng ngoại ngữ để tăng tỷ lệ cạnh tranh</p>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
 
                 </div>
@@ -708,3 +670,4 @@
             </div>
         </div>
     </div>
+    <?php include __DIR__ . '/../../core/templates/candidate_footer.php'; ?>

@@ -1,16 +1,24 @@
 <?php
 // --- Cấu hình database ---
-define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'timvieci_job_portal');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_PORT', '3307');
-define('DB_DRIVER', 'mysql');
+// define('DB_HOST', '103.255.237.26');
+// define('DB_NAME', 'timvieci_job_portal');
+// define('DB_USER', 'timvieci_hnaduc2005');
+// define('DB_PASS', 'R)Y[dfA]i+Fd');
+// define('DB_PORT', '3306');
+// define('DB_DRIVER', 'mysql');
 
+// Khai báo database
+const _HOST = 'localhost';
+const _DB = 'timvieci_job_portal';
+const _USER = 'root';
+const _PASS = '';
+const _DRIVER = 'mysql';
 
 // --- Thiết lập chung ---
 date_default_timezone_set('Asia/Ho_Chi_Minh');
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 ob_start();
 
 // --- Kiểm tra truy cập hợp lệ ---
@@ -37,4 +45,3 @@ function getCurrentPath() {
     $caller = end($trace);
     return dirname($caller['file']);
 }
-

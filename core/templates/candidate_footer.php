@@ -72,9 +72,54 @@
             </div>
         </div>
     </div>
-    
     <script src="/JobPortalWebsite/assets/js/main.js"></script>
-</footer>
+    <script>
+        const showLogin = document.querySelector('.text-white-1');
+        if (showLogin) {
+            showLogin.addEventListener("click", function() {
+                //gán URL cho thuộc tính window.location.href
+                window.location.href = "<?php echo BASE_URL;?>?module=candidate&action=login";
+            });
+        }
+    </script>
+    <script>
+        const logoutUrl = '<?php echo $logoutUrl; ?>';
+        const logoutButton = document.getElementById('logoutButton');
+
+        if (logoutButton) {
+            logoutButton.addEventListener('click', async (e) => {
+                e.preventDefault(); 
+
+                try {
+                    const response = await fetch(logoutUrl, {
+                        method: 'POST', 
+                        headers: {'Content-Type': 'application/json'}
+                    });
+
+                    // Kiểm tra status code. Nếu status không phải 200, có thể là lỗi Header.
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('Lỗi phản hồi HTTP/Headers:', response.status, errorText);
+                        alert(`Lỗi Đăng xuất (Mã ${response.status}). Vui lòng kiểm tra console.`);
+                        return;
+                    }
+
+                    // Lỗi SyntaxError: Unexpected token '<' sẽ xảy ra TẠI ĐÂY nếu PHP output lỗi.
+                    const result = await response.json(); 
+
+                    if (result.success) {
+                        alert(result.message);
+                        window.location.reload(); 
+                    } else {
+                        alert("Đăng xuất thất bại: " + result.message);
+                    }
+                } catch (error) {
+                    console.error('Lỗi phân tích JSON hoặc kết nối:', error);
+                    alert("Lỗi hệ thống khi đăng xuất. Vui lòng kiểm tra lại file config.php và session.php để đảm bảo không có output thừa.");
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

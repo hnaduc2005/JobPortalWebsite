@@ -2,8 +2,16 @@
 require_once __DIR__ . '/../../core/config/config.php';
 require_once __DIR__ . '/../../core/includes/connect.php';
 require_once __DIR__ . '/../../core/includes/database.php'; 
+require_once __DIR__ . '/../../core/includes/session.php';
 
-const _ACTION = 'My_portfolio';
+//Email
+require_once __DIR__ . '/../../core/includes/mailer/Exception.php';
+require_once __DIR__ . '/../../core/includes/mailer/PHPMailer.php';
+require_once __DIR__ . '/../../core/includes/mailer/SMTP.php';
+
+require_once __DIR__ . '/../../core/includes/functions.php';
+
+const _ACTION = 'homepage';
 
 // Lấy action
 $action = $_GET['action'] ?? _ACTION;
@@ -13,16 +21,8 @@ $viewPath = __DIR__ . '/views/' . $action . '.php';
 
 // Nếu view tồn tại → load
 if (file_exists($viewPath)) {
-
-    // include header
-    require_once __DIR__ . '/../../core/templates/header.php';
-
-    // include view
     require_once $viewPath;
-
-    // include footer
-    require_once __DIR__ . '/../../core/templates/footer.php';
 } 
 else {
-    require_once __DIR__ . '/../../errors/404.php';
+    require_once __DIR__ . '/../../errors/404.php'; 
 }
