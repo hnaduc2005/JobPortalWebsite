@@ -1,197 +1,203 @@
+<?php
+checkAccessToken();
+if (isPost()) {
+    $filter = filterData();
+    $errors = [];
+
+    // ============================
+    // Validate Email
+    // ============================
+    // Đổi tên biến và thông báo lỗi để chỉ tập trung vào Email
+    $email = trim($filter['email'] ?? ''); 
+    if (empty($email)) {
+        $errors['email']['required'] = 'Địa chỉ Email bắt buộc phải nhập.'; 
+    } else {
+        // Có thể thêm kiểm tra định dạng email cơ bản (tùy chọn)
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+             $errors['email']['invalid'] = 'Địa chỉ Email không hợp lệ.'; 
+        }
+        // Giữ kiểm tra chiều dài (tối thiểu 5 ký tự là hợp lý cho email)
+        if (strlen($email) < 5) { 
+            $errors['email']['length'] = 'Email phải có ít nhất 5 ký tự.';
+        }
+    }
+
+    // ============================
+    // Validate Password
+    // ============================
+    $password = trim($filter['password'] ?? '');
+    if (empty($password)) {
+        $errors['password']['required'] = 'Mật khẩu bắt buộc phải nhập';
+    } else {
+        if (strlen($password) < 6) {
+            $errors['password']['length'] = 'Mật khẩu phải có ít nhất 6 ký tự';
+        }
+    }
+
+    // ============================
+    // Nếu không có lỗi validate -> kiểm tra DB
+    // ============================
+    if (empty($errors)) {
+        try {
+            // !!! Truy vấn CHỈ tìm kiếm theo email
+            $stmt = $conn->prepare('
+                SELECT id, email, password, fullname, role, status, is_verified 
+                FROM user 
+                WHERE email = :email 
+                LIMIT 1
+            ');
+            $stmt->execute([':email' => $email]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && !empty($user['password'])) {
+                
+                // Kiểm tra trạng thái tài khoản (nên làm trước kiểm tra mật khẩu)
+                if ($user['status'] == '0') {
+                    $errors['general'] = 'Tài khoản của bạn đã bị khóa hoặc chưa được kích hoạt.';
+                } 
+                // Có thể thêm kiểm tra is_verified ở đây nếu cần thiết
+
+                if (empty($errors['general'])) {
+                    // Verify password
+                    if (password_verify($password, $user['password'])) {
+                        // Đăng nhập thành công
+                        session_regenerate_id(true);
+                        
+                        $_SESSION['user'] = [
+                            'id' => $user['id'],
+                            'email' => $user['email'], 
+                            'fullname' => $user['fullname'] ?? '',
+                            'role' => $user['role'] ?? ''
+                        ];
+
+                        // Cập nhật last_login
+                        try {
+                            $upd = $conn->prepare('UPDATE user SET last_login = NOW() WHERE id = :id');
+                            $upd->execute([':id' => $user['id']]);
+                        } catch (Exception $x) {
+                            // Không block login nếu update thất bại
+                        }
+
+                        // Flash thành công và redirect
+                        setSessionFlash('msg', 'Đăng nhập thành công!');
+                        setSessionFlash('msg_type', 'success');
+                        // Tùy chọn: Điều hướng dựa trên role
+                        if ($user['role'] === '1') {
+                            header('Location: ' . BASE_URL . '/?module=candidate&action=homepage');
+                        } 
+                        exit;
+                    } else {
+                        $errors['general'] = 'Email hoặc mật khẩu không đúng.';
+                    }
+                }
+            } else {
+                $errors['general'] = 'Email hoặc mật khẩu không đúng.';
+            }
+        } catch (PDOException $ex) {
+            error_log("Login DB Error: " . $ex->getMessage());
+            $errors['general'] = 'Có lỗi hệ thống. Vui lòng thử lại sau.';
+        }
+    }
+
+    if ($checkStatus) { // Giả định mật khẩu đã được password_verify() xác minh
+    
+    // --- BƯỚC 1: THIẾT LẬP SESSION THÔNG THƯỜNG ---
+        session_regenerate_id(true); // Tăng cường bảo mật session
+        setSession('user', [
+            'id' => $checkEmail['id'],
+            'email' => $checkEmail['email'], 
+            'fullname' => $checkEmail['fullname'] ?? '',
+            'role' => $checkEmail['role'] ?? ''
+        ]);
+        
+        // (Tùy chọn) Cập nhật last_login
+        global $conn;
+        $upd = $conn->prepare('UPDATE user SET last_login = NOW() WHERE id = :id');
+        $upd->execute([':id' => $checkEmail['id']]);
+
+
+        // --- BƯỚC 2: TẠO VÀ LƯU TOKEN NẾU CHỌN "NHỚ TÔI" ---
+        
+        // Giả định bạn có biến này từ form (ví dụ: $data['remember_me'])
+        $rememberMe = !empty($data['remember_me']); 
+
+        if ($rememberMe) {
+            // 1. Tạo token theo phương pháp trong hình ảnh (SHA1)
+            $token = sha1(uniqid() . time()); 
+
+            // 2. Chuẩn bị dữ liệu DB
+            $dataToken = [
+                'user_id'    => $checkEmail['id'],   
+                'token'      => $token, // Lưu token thô (theo yêu cầu của bạn)
+                'created_at' => date('Y-m-d H:i:s'), 
+                'updated_at' => date('Y-m:d H:i:s')
+            ];
+
+            // 3. Thực hiện INSERT vào bảng token_login (Sử dụng PDO trực tiếp)
+            try {
+                $stmtToken = $conn->prepare('
+                    INSERT INTO token_login (user_id, token, created_at, updated_at) 
+                    VALUES (:user_id, :token, :created_at, :updated_at)
+                ');
+                $stmtToken->execute($dataToken);
+
+                // 4. Thiết lập Cookie cho trình duyệt (Hết hạn sau 30 ngày)
+                $expiryTime = time() + (30 * 24 * 3600); // 30 ngày
+                
+                setcookie('remember_me', $token, [
+                    'expires' => $expiryTime,
+                    'path' => '/',
+                    'httponly' => true, // BẮT BUỘC: Bảo vệ khỏi XSS
+                    // 'secure' => true, // Chỉ bật nếu website chạy trên HTTPS
+                    'samesite' => 'Lax'
+                ]);
+
+            } catch (PDOException $e) {
+                error_log("Token DB Error: " . $e->getMessage());
+                // Lỗi DB khi lưu token -> Log lỗi nhưng vẫn cho đăng nhập
+            }
+        }
+        
+        // --- BƯỚC 3: PHẢN HỒI VÀ CHUYỂN HƯỚNG ---
+        setSessionFlash('msg', 'Đăng nhập thành công.');
+        setSessionFlash('msg_type', 'success');
+        // header('Location: ' . BASE_URL); 
+        // exit();
+
+    } else {
+        // Mật khẩu không đúng
+        setSessionFlash('msg', 'Vui lòng kiểm tra lại mật khẩu.');
+        setSessionFlash('msg_type', 'danger');
+    }
+// ... (Chuyển hướng hoặc hiển thị lỗi) ...
+
+    // Nếu có lỗi -> lưu flash và redirect
+    if (!empty($errors)) {
+        setSessionFlash('msg', 'Vui lòng kiểm tra lại dữ liệu nhập vào.');
+        setSessionFlash('msg_type', 'danger');
+        setSessionFlash('oldData', $filter);
+        setSessionFlash('errors', $errors);
+        
+        $redirectTo = $_SERVER['REQUEST_URI'] ?? (BASE_URL . '/?module=admin&action=login');
+        header('Location: ' . $redirectTo);
+        exit();
+    }
+}
+
+// Lấy flash để hiển thị
+$msg = getSessionFlash('msg');
+$msg_type = getSessionFlash('msg_type');
+$old = getSessionFlash('oldData');
+$errors = getSessionFlash('errors');
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Nhập</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url(https://cdn1.vieclam24h.vn/images/public/2024/05/15/bg_171576434650.png) no-repeat;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            position: relative;
-        }
-
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            animation: slideIn 0.5s ease-out;
-            position: relative;
-            z-index: 1;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .login-header h1 {
-            color: #333;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .login-header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            color: #333;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .form-group input:focus {
-            border-color: #451DA0;
-            box-shadow: 0 0 0 3px rgba(69, 29, 160, 0.1);
-        }
-
-        .forgot-password {
-            text-align: right;
-            margin-bottom: 20px;
-        }
-
-        .forgot-password a {
-            color: #007bff;
-            text-decoration: none;
-            font-size: 13px;
-            transition: color 0.3s ease;
-        }
-
-        .forgot-password a:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
-
-        .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: #451DA0;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(69, 29, 160, 0.4);
-            background: #5a29c4;
-        }
-
-        .btn-login:active {
-            transform: translateY(0);
-        }
-
-        .divider {
-            text-align: center;
-            margin: 25px 0;
-            position: relative;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .divider span {
-            background: white;
-            padding: 0 15px;
-            color: #999;
-            font-size: 13px;
-            position: relative;
-        }
-
-        .register-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .register-link p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .register-link a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .register-link a:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
-
-        .success-message {
-            display: none;
-            background: #4caf50;
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+    <link rel="stylesheet" href="./assets/css/Candidate/login.css">
 </head>
 <body>
     <div class="login-container">
@@ -200,20 +206,32 @@
             <p>Đăng nhập để tiếp tục</p>
         </div>
 
-        <div class="success-message" id="successMessage">
-            Đăng nhập thành công!
-        </div>
+        <?php if (!empty($msg)): ?>
+            <div class="alert alert-<?php echo htmlspecialchars($msg_type); ?>">
+                <?php echo htmlspecialchars($msg); ?>
+            </div>
+        <?php endif; ?>
 
-        <form id="loginForm">
+        <?php if (!empty($errors['general'])): ?>
+            <div class="alert alert-danger">
+                <?php echo htmlspecialchars($errors['general']); ?>
+            </div>
+        <?php endif; ?>
+
+        <form id="loginForm" method="POST" action="">
             <div class="form-group">
-                <label for="username">Tên đăng nhập / Email</label>
+                <label for="email">Email</label>
                 <input 
-                    type="text" 
-                    id="username" 
-                    name="username" 
-                    placeholder="Nhập tên đăng nhập hoặc email"
-                    required
+                    type="email" id="email" 
+                    name="email" placeholder="Nhập địa chỉ email"
+                    autocomplete="email" value="<?php echo htmlspecialchars($old['email'] ?? ''); ?>"
+                    class="<?php echo !empty($errors['email']) ? 'error' : ''; ?>"
                 >
+                <?php if (!empty($errors['email'])): ?>
+                    <span class="error-message">
+                        <?php echo htmlspecialchars(reset($errors['email'])); ?>
+                    </span>
+                <?php endif; ?>
             </div>
 
             <div class="form-group">
@@ -223,12 +241,18 @@
                     id="password" 
                     name="password" 
                     placeholder="Nhập mật khẩu"
-                    required
+                    autocomplete="current-password"
+                    class="<?php echo !empty($errors['password']) ? 'error' : ''; ?>"
                 >
+                <?php if (!empty($errors['password'])): ?>
+                    <span class="error-message">
+                        <?php echo htmlspecialchars(reset($errors['password'])); ?>
+                    </span>
+                <?php endif; ?>
             </div>
 
             <div class="forgot-password">
-                <a href="#" id="forgotPasswordLink">Quên mật khẩu?</a>
+                <a href="<?php echo BASE_URL; ?>/?module=candidate&action=forgot">Quên mật khẩu?</a>
             </div>
 
             <button type="submit" class="btn-login">Đăng nhập</button>
@@ -239,42 +263,8 @@
         </div>
 
         <div class="register-link">
-            <p>Chưa có tài khoản? <a href="#" id="registerLink">Đăng ký ngay</a></p>
+            <p>Chưa có tài khoản? <a href="<?php echo BASE_URL; ?>/?module=candidate&action=register">Đăng ký ngay</a></p>
         </div>
     </div>
-
-    <script>
-        const loginForm = document.getElementById('loginForm');
-        const successMessage = document.getElementById('successMessage');
-        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
-        const registerLink = document.getElementById('registerLink');
-
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Hiển thị thông báo thành công
-            successMessage.style.display = 'block';
-            
-            // Ẩn thông báo sau 3 giây
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 3000);
-
-            console.log('Đăng nhập với:', { username, password });
-        });
-
-        forgotPasswordLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Chức năng quên mật khẩu sẽ được triển khai!');
-        });
-
-        registerLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('Chuyển đến trang đăng ký!');
-        });
-    </script>
 </body>
 </html>
