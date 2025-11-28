@@ -8,10 +8,10 @@ define('DB_PORT', '3306');
 define('DB_DRIVER', 'mysql');
 
 // Khai báo database
-// const _HOST = 'localhost';
+// const _HOST = '127.0.0.1:3307';
 // const _DB = 'timvieci_job_portal';
 // const _USER = 'root';
-// const _PASS = '';
+// const _PASS = 'hnaduc05';
 // const _DRIVER = 'mysql';
 
 // --- Thiết lập chung ---
