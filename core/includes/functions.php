@@ -81,49 +81,44 @@ function errorMessage($errorsArr, $inputName) {
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-// Hàm gửi Mail
+
 function sendMail($emailTo, $subject, $content) {
 
     $mail = new PHPMailer(true);
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_OFF;                      
-        $mail->isSMTP();                                            
-        $mail->Host       = 'smtp.gmail.com';                     
-        $mail->SMTPAuth   = true;                                   
-        $mail->Username   = 'voduykhanh.6275@gmail.com';                     
-        $mail->Password   = 'cwjkmibvqbtvsmln';                               
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
-        $mail->Port       = 465;                                    
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;
+        $mail->isSMTP();
+        $mail->Host       = 'mail.timviec.io.vn';   
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'check_register@timviec.io.vn'; 
+        $mail->Password   = 'Kw~tLXe7vLl)';        
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;     // SSL
+        $mail->Port       = 465;                             // đúng theo cPanel
 
         //Recipients
-        $mail->setFrom('voduykhanh.6275@gmail.com', 'Job Portal');
-        $mail->addAddress($emailTo);     //Add a recipient
+        $mail->setFrom('check_register@timviec.io.vn', 'Job Portal');
+        $mail->addAddress($emailTo);
 
         //Content
         $mail->CharSet = 'UTF-8';
-        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body    = $content;
 
-        $mail->SMTPOptions = array(
+        // Fix lỗi SSL (nếu host tự ký chứng chỉ)
+        $mail->SMTPOptions = [
             'ssl' => [
-                'verify_peer' => true,
-                'verify_depth' => 3,
+                'verify_peer' => false,
+                'verify_peer_name' => false,
                 'allow_self_signed' => true,
             ],
-        );
+        ];
 
         return $mail->send();
+
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }
-}
-
-function layout($layoutName, $data = []) {
-    $layout = getCurrentPath() . "modules/admin/views" . $layoutName .".php";
-    if (file_exists($layout)) {
-        require_once($layout);
     }
 }
