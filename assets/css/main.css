@@ -1209,6 +1209,7 @@ margin-bottom: 10px;
     animation: fadeIn .2s ease;
         position: relative;
     z-index: 9999999 !important;
+    margin-top: 100px;
 }
 
 /* Header */
@@ -1540,3 +1541,246 @@ margin-bottom: 10px;
 
 /*End Popup kĩ năng*/
 /* End Nội Dung Trang hồ sơ của tôi */
+
+/* Nội dung trang ứng tuyển */
+.in4_apply .inner-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.section-one {
+    font-family: sans-serif;
+    padding: 15px 0;
+}
+
+.section-one h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+
+.require {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.require .item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.require .item i {
+    width: 42px;
+    height: 42px;
+    background: rgba(92, 103, 255, 0.1); /* nền tím nhạt y ảnh */
+    color: #5c67ff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.require .content .tt {
+    font-size: 14px;
+    color: #6b6b6b;
+}
+
+.require .content .ct {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+
+.time {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.appply-time span:first-child {
+    font-size: 16px;
+    color: #666;
+    margin-right: 5px;
+}
+
+.appply-time span:last-child {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+.calling {
+    color: #ff7a00;
+    font-size: 15px;
+}
+
+.calling i {
+    font-size: 10px;
+    margin-right: 5px;
+    color: #ff7a00;
+}
+
+
+.start-apply {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.start-apply .send {
+    background: #5c67ff;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.start-apply .send i {
+    font-size: 15px;
+}
+
+.start-apply .save-work {
+    background: #f5f5ff;
+    color: #5c67ff;
+    padding: 12px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.start-apply .save-work i {
+    font-size: 16px;
+}
+/* ==========================
+   STYLE CHUNG CHO CÁC SECTION
+========================== */
+
+.section-two,
+.section-three,
+.section-four,
+.section-five,
+.section-six {
+    font-family: sans-serif;
+    margin-bottom: 40px;
+}
+
+.section-two h2,
+.section-three h2,
+.section-four h2,
+.section-five h2,
+.section-six h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* ==========================
+   DESCRIPTION (DANH SÁCH NỘI DUNG)
+========================== */
+
+.dsc {
+    font-size: 16px;
+    color: #333;
+    line-height: 26px;
+}
+
+/* ==========================
+   THÔNG TIN CHUNG – TABLE
+========================== */
+
+.job-info-box {
+    width: 100%;
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+    padding: 20px 0;
+}
+
+.row-info {
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.row-info:last-child {
+    border-bottom: none;
+}
+
+.row-info .item {
+    width: 50%;
+}
+
+.row-info .item.full {
+    width: 100%;
+}
+
+.label {
+    font-size: 15px;
+    color: #999;
+    margin-bottom: 4px;
+}
+
+.value {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* ==========================
+   ĐỊA ĐIỂM LÀM VIỆC
+========================== */
+
+.section-six .title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.workplace {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    line-height: 26px;
+}
+
+.workplace .icon {
+    margin-right: 8px;
+    font-size: 16px;
+    color: #555;
+}
+
+.city-link {
+    color: #6c5ce7;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.city-link:hover {
+    text-decoration: underline;
+}
+
+.address {
+    color: #333;
+    margin-left: 4px;
+}
+
+/*  */
+
+
+/* End Nội dung trang ứng tuyển */
