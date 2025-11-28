@@ -108,8 +108,14 @@
                     const result = await response.json(); 
 
                     if (result.success) {
-                        alert(result.message);
-                        window.location.reload(); 
+                        window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' // Cuộn mượt
+                    });
+                        setTimeout(() => {
+                            alert("Đăng xuất thành công!");
+                            window.location.reload();
+                        }, 500); // chờ 0.5s để cuộn xong 
                     } else {
                         alert("Đăng xuất thất bại: " + result.message);
                     }
@@ -120,6 +126,32 @@
             });
         }
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. Tìm phần tử chứa danh sách công việc
+            const jobSection = document.querySelector('.job-listing-section');
+
+            if (jobSection) {
+                // Lấy tọa độ Y của phần tử
+                const yOffset = jobSection.getBoundingClientRect().top + window.pageYOffset;
+                
+                // Chiều cao cửa sổ
+                const windowHeight = window.innerHeight;
+                
+                // Tính toán vị trí cuộn mới để đưa phần tử về giữa màn hình
+                const scrollToPosition = yOffset - (windowHeight / 2) + (jobSection.offsetHeight / 2);
+
+                // 3. Thực hiện cuộn trang mượt mà
+                window.scrollTo({
+                    top: scrollToPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>
 </body>
 
 </html>

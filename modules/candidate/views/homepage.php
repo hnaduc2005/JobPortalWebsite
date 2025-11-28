@@ -1,5 +1,103 @@
 <?php require_once getCurrentPath() . '/core/templates/candidate_header.php'; ?>
 
+<?php 
+    // Hàm trợ giúp để tính số ngày còn lại
+    function calculate_days_remaining($deadline) {
+        try {
+            $now = new DateTime();
+            $expiry = new DateTime($deadline);
+        } catch (Exception $e) {
+            return 'Không rõ';
+        }
+        
+        if ($expiry > $now) {
+            $interval = $now->diff($expiry);
+            return 'Còn ' . $interval->days . ' ngày';
+        }
+        return 'Đã hết hạn';
+    }
+    // Hàm trợ giúp để định dạng lương
+        function format_salary($min, $max) {
+            $min_trieu = $min / 1000000;
+            $max_trieu = $max / 1000000;
+            
+            if ($min > 0 && $max > 0 && $min != $max) {
+                return number_format($min_trieu, 0) . ' - ' . number_format($max_trieu, 0) . ' Triệu';
+            } elseif ($min > 0) {
+                return 'Từ ' . number_format($min_trieu, 0) . ' Triệu';
+            }
+            return 'Thỏa thuận';
+        }
+
+        $salaryRanges = [
+            'Thỏa thuận' => [0, 0], '5-10' => [5000000, 10000000],
+            '10-20' => [10000000, 20000000], '20-35' => [20000000, 35000000],
+            '35+' => [35000000, 99999999]
+        ];
+
+
+        // Cấu hình phân trang
+        $jobsPerPage = 9; // Số bài đăng mỗi trang
+
+        // 1. Tính tổng số bài đăng (dùng hàm getRows() của bạn)
+        $countSql = "SELECT id FROM recruitment_posts WHERE is_hot = 1 AND status = '1'";
+        $totalJobs = getRows($countSql); // Ví dụ: $totalJobs = 10
+
+        // 2. Tính tổng số trang
+        $totalPages = ceil($totalJobs / $jobsPerPage); // ceil(10 / 9) = 2
+
+        // 3. Xác định trang hiện tại (lấy từ URL, mặc định là 1)
+        $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+        // Đảm bảo trang hiện tại không vượt quá giới hạn
+        $currentPage = max(1, min($currentPage, $totalPages)); 
+
+        // 4. Tính OFFSET cho SQL
+        $offset = ($currentPage - 1) * $jobsPerPage;
+
+        function buildPaginationLink($pageNumber, $totalPages) {
+            // Lấy tất cả các tham số hiện tại từ URL
+            $params = $_GET;
+
+            // 1. Đặt giá trị page mới
+            $params['page'] = max(1, min($pageNumber, $totalPages));
+
+            // 2. Nếu page là 1, xóa tham số 'page' để URL trông sạch hơn
+            if ($pageNumber <= 1) {
+                unset($params['page']);
+            }
+            
+            // 3. Dùng http_build_query để tạo chuỗi tham số hoàn chỉnh
+            // Ví dụ: ?module=candidate&action=homepage&page=2
+            return '?' . http_build_query($params);
+        }
+
+        if ($totalPages > 1) { // Chỉ hiển thị nếu có nhiều hơn 1 trang
+            
+            // Tạo link cho trang trước và trang sau
+            $prevLink = buildPaginationLink($currentPage - 1, $totalPages);
+            $nextLink = buildPaginationLink($currentPage + 1, $totalPages);
+        }
+        //Lệnh sql 
+        $sql = "
+            SELECT 
+                rj.id, 
+                rj.title, 
+                rj.salary_min, 
+                rj.salary_max, 
+                rj.location, 
+                rj.deadline, 
+                rj.is_hot,
+                ep.company_name, 
+                ep.logo
+            FROM recruitment_posts rj
+            JOIN employer_profiles ep ON rj.user_id = ep.user_id
+            WHERE rj.is_hot = 1  
+            AND rj.status = '1' 
+            ORDER BY rj.created_at DESC
+            LIMIT $jobsPerPage OFFSET $offset;  -- Dùng biến động
+        ";
+    $jobs = getAll($sql);
+?>
 <!-- SEARCH AND BANNER -->
     <div class="search-section">
     <div class="search-bar-container">
@@ -55,8 +153,8 @@
     <h2 class="section-title">
         <span class="fire-icon">🔥</span> Việc làm tuyển gấp
     </h2>
-
-    <div class="filter-bar">
+    
+        <div class="filter-bar">
         
         <div class="filter-dropdown-container">
             
@@ -68,7 +166,7 @@
             
             <div class="filter-panel">
                 <div class="filter-options-nav" id="filter-nav-tabs">
-                    <div class="filter-tab active">Địa điểm</div>
+                    <div class="filter-tab">Địa điểm</div>
                     <div class="filter-tab">Mức lương</div>
                     <div class="filter-tab">Kinh nghiệm</div>
                     <div class="filter-tab">Ngành nghề</div>
@@ -98,175 +196,68 @@
 
     <div class="job-cards-grid">
         
-        <div class="job-card">
-            <div class="card-header">
-                <a href="#" class="job-title">Kế Toán Trưởng, Kinh Nghiệm 3 Năm (Gói...</a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
-            </div>
-            <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Chi Nhánh Thuận Việt - Công ty TNHH Trường...</span>
-            </div>
-            <div class="job-details">
-                <span class="detail-item salary">💰 15 - 25 Triệu</span>
-                <span class="detail-item location">📍 Tiền Giang</span>
-            </div>
-            <div class="card-footer">
-                <span class="days-ago">⏰ Còn 12 ngày</span>
-            </div>
-        </div>
+        <?php 
+        if (!empty($jobs)) {
+            // Vòng lặp để tạo các thẻ công việc (job-card) từ dữ liệu DB
+            foreach ($jobs as $job) { 
+                
+                // Lấy và làm sạch các giá trị
+                $jobId = htmlspecialchars($job['id']);
+                $jobTitle = htmlspecialchars($job['title']);
+                $companyName = htmlspecialchars($job['company_name']);
+                $location = htmlspecialchars($job['location']);
+                
+                $salaryRange = format_salary($job['salary_min'], $job['salary_max']);
+                $daysRemaining = calculate_days_remaining($job['deadline']);
 
-        <div class="job-card">
-            <div class="card-header">
-                <a href="#" class="job-title">[Đi Làm Ngay] Tài Xế Lái Xe - Bằng C, Xe Tải...</a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
-            </div>
-            <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Công Ty TNHH Hyung Dk Vietnam</span>
-            </div>
-            <div class="job-details">
-                <span class="detail-item salary">💰 12 - 16 Triệu</span>
-                <span class="detail-item location">📍 Đồng Nai</span>
-            </div>
-            <div class="card-footer">
-                <span class="tag">Không cần CV</span>
-                <span class="days-ago">⏰ Còn 6 ngày</span>
-            </div>
-        </div>
-        
-        <div class="job-card">
-            <div class="card-header">
-                <a href="#" class="job-title">Nhân Viên Lập Trình Phay Tiện CNC</a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
-            </div>
-            <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Công Ty TNHH MTP Precision Tech</span>
-            </div>
-            <div class="job-details">
-                <span class="detail-item salary">💰 12 - 16 Triệu</span>
-                <span class="detail-item location">📍 TP.HCM</span>
-            </div>
-            <div class="card-footer">
-                <span class="days-ago">⏰ Còn 27 ngày</span>
-            </div>
-        </div>
-        
-        <div class="job-card">
-            <div class="card-header">
-                <a href="#" class="job-title">Nhân Viên Hỗ Trợ Kinh Doanh Đi Làm Ngay</a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
-            </div>
-            <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Công Ty TNHH Đầu tư Nội công nghệ Y Tế Giàu...</span>
-            </div>
-            <div class="job-details">
-                <span class="detail-item salary">💰 Thỏa thuận</span>
-                <span class="detail-item location">📍 TP.HCM</span>
-            </div>
-            <div class="card-footer">
-                <span class="days-ago">⏰ Còn 18 ngày</span>
-            </div>
-        </div>
+                $logoUrl = !empty($job['logo']) ? htmlspecialchars($job['logo']) : './assets/imgs/default.png';
 
-        <div class="job-card">
-            <div class="card-header">
-                <a href="#" class="job-title">Nhân Viên Văn Phòng - Biết Tiếng Anh</a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
-            </div>
-            <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Công Ty TNHH Gold Century Garment Vina</span>
-            </div>
-            <div class="job-details">
-                <span class="detail-item salary">💰 10 - 15 Triệu</span>
-                <span class="detail-item location">📍 TP.HCM</span>
-            </div>
-            <div class="card-footer">
-                <span class="days-ago">⏰ Còn 8 ngày</span>
-            </div>
-        </div>
+                $tagHtml = '';
+                if ($job['is_hot'] == 1) { 
+                    $tagHtml = '<span class="tag hot">HOT</span>';
+                }
+        ?>
         
         <div class="job-card">
             <div class="card-header">
-                <a href="#" class="job-title">Nhân Viên Kinh Doanh Lương Upto 50Tr /...</a>
+                <a href="/job/detail?id=<?php echo $jobId; ?>" class="job-title"><?php echo $jobTitle; ?></a>
                 <button class="favorite-btn"><i class="ti ti-heart"></i></button>
             </div>
             <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Công Ty TNHH Hóa Kiến Nhân</span>
+                <img src="<?php echo $logoUrl; ?>" alt="Logo Công ty" class="company-logo">
+                <span class="company-name"><?php echo $companyName; ?></span>
             </div>
             <div class="job-details">
-                <span class="detail-item salary">💰 10 - 50 Triệu</span>
-                <span class="detail-item location">📍 TP.HCM</span>
+                <span class="detail-item salary">💰 <?php echo $salaryRange; ?></span>
+                <span class="detail-item location">📍 <?php echo $location; ?></span>
             </div>
             <div class="card-footer">
-                <span class="days-ago">⏰ Còn 5 ngày</span>
+                <?php echo $tagHtml; ?>
+                <span class="days-ago">⏰ <?php echo $daysRemaining; ?></span>
             </div>
         </div>
         
-        <div class="job-card">
-            <div class="card-header">
-                <a href="#" class="job-title">Phiên Dịch Viên Tiếng Trung</a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
-            </div>
-            <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Công Ty TNHH WeWork Vietnam</span>
-            </div>
-            <div class="job-details">
-                <span class="detail-item salary">💰 14 - 20 Triệu</span>
-                <span class="detail-item location">📍 Bà Rịa - Vũng Tàu</span>
-            </div>
-            <div class="card-footer">
-                <span class="days-ago">⏰ Còn 22 ngày</span>
-            </div>
-        </div>
-        
-        <div class="job-card">
-            <div class="card-header">
-                <a href="#" class="job-title">Nhân Viên Phục Vụ (Làm Việc Cả Sinh Viên)...</a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
-            </div>
-            <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Công Ty TNHH Viet Nam Saliveriya</span>
-            </div>
-            <div class="job-details">
-                <span class="detail-item salary">💰 9 - 9 Triệu</span>
-                <span class="detail-item location">📍 TP.HCM</span>
-            </div>
-            <div class="card-footer">
-                <span class="days-ago">⏰ Còn 26 ngày</span>
-            </div>
-        </div>
-        
-        <div class="job-card">
-            <div class="card-header">
-                <a href="#" class="job-title">Trưởng Nhóm Kinh Doanh (Dự Án Nội Thất)...</a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
-            </div>
-            <div class="company-info">
-                <img src="./assets/imgs/Chelsea.png" alt="Logo" class="company-logo">
-                <span class="company-name">Chi Nhánh Công Ty Cổ Phần Kiến Trúc Xây...</span>
-            </div>
-            <div class="job-details">
-                <span class="detail-item salary">💰 15 - 30 Triệu</span>
-                <span class="detail-item location">📍 TP.HCM</span>
-            </div>
-            <div class="card-footer">
-                <span class="tag hot">HOT</span>
-                <span class="days-ago">⏰ Còn 18 ngày</span>
-            </div>
-        </div>
+        <?php
+            } // Kết thúc vòng lặp foreach
+        } else {
+            echo '<p style="grid-column: 1 / -1; text-align: center; padding: 20px;">Không có việc làm tuyển gấp nào đang hoạt động.</p>';
+        }
+        ?>
+
     </div>
     
     <div class="pagination">
-        <button class="prev-page"><i class="ti ti-angle-left"></i></button>
-        <span class="page-info">1 / 36</span>
-        <button class="next-page active"><i class="ti ti-angle-right"></i></button>
+        <a href="<?php echo ($currentPage > 1) ? $prevLink : 'javascript:void(0)'; ?>"
+        class="prev-page <?php echo ($currentPage <= 1) ? 'disabled' : 'active'; ?>">
+            <i class="ti ti-angle-left"></i>
+        </a>
+        
+        <span class="page-info"><?php echo $currentPage; ?> / <?php echo $totalPages; ?></span>
+        
+        <a href="<?php echo ($currentPage < $totalPages) ? $nextLink : 'javascript:void(0)'; ?>"
+        class="next-page <?php echo ($currentPage >= $totalPages) ? 'disabled' : 'active'; ?>">
+            <i class="ti ti-angle-right"></i>
+        </a>
     </div>
 
 </div>
