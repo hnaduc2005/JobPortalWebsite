@@ -4,7 +4,6 @@ checkAccessToken();
 require_once __DIR__ . "/../../../core/includes/connect.php";
 require_once __DIR__ . "/../../../core/includes/database.php";
 
-
 // Lấy ID
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
