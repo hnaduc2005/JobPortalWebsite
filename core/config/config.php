@@ -7,12 +7,8 @@ define('DB_PASS', 'R)Y[dfA]i+Fd');
 define('DB_PORT', '3306');
 define('DB_DRIVER', 'mysql');
 
-// Khai báo database
-// const _HOST = '127.0.0.1:3307';
-// const _DB = 'timvieci_job_portal';
-// const _USER = 'root';
-// const _PASS = 'hnaduc05';
-// const _DRIVER = 'mysql';
+
+
 
 // --- Thiết lập chung ---
 date_default_timezone_set('Asia/Ho_Chi_Minh');

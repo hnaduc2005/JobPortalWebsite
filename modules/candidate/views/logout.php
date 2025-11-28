@@ -1,5 +1,5 @@
 <?php
-// TẠM THỜI THÊM ĐOẠN NÀY VÀO ĐẦU FILE logout.php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);

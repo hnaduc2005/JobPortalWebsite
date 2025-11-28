@@ -105,4 +105,3 @@ function lastID()
     global $conn;
     return $conn->lastInsertId();
 }
-?>

@@ -108,14 +108,32 @@
                     const result = await response.json(); 
 
                     if (result.success) {
+    
+                        // 1. Hiển thị thông báo (Có thể thay bằng alert nếu muốn)
+                        alert("Đăng xuất thành công!");
+
+                        // 2. TẠO URL CHUYỂN HƯỚNG SẠCH
+                        // Lấy URL cơ sở (ví dụ: http://localhost/jobPortal/)
+                        const currentUrlBase = window.location.href.split('?')[0]; 
+                        
+                        // 3. Thực hiện CUỘN LÊN ĐẦU TRANG và CHUYỂN HƯỚNG
                         window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth' // Cuộn mượt
-                    });
+                            top: 0,
+                            behavior: 'smooth' 
+                        });
+                        
+                        // Chuyển hướng về trang chủ sau khi cuộn xong (thêm tham số báo hiệu)
                         setTimeout(() => {
-                            alert("Đăng xuất thành công!");
-                            window.location.reload();
-                        }, 500); // chờ 0.5s để cuộn xong 
+                            // Chuyển hướng về trang chủ/đăng nhập (sử dụng URL gốc của trang)
+                            // Nếu trang homepage của bạn là gốc:
+                            // window.location.href = currentUrlBase + "?logout_completed=true"; 
+                            
+                            // Nếu trang homepage của bạn có các tham số mặc định:
+                            const baseQuery = "?module=candidate&action=homepage"; 
+                            window.location.href = currentUrlBase + baseQuery + "&logout_completed=true";
+
+                        }, 500); 
+
                     } else {
                         alert("Đăng xuất thất bại: " + result.message);
                     }
@@ -126,30 +144,7 @@
             });
         }
     </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 1. Tìm phần tử chứa danh sách công việc
-            const jobSection = document.querySelector('.job-listing-section');
-
-            if (jobSection) {
-                // Lấy tọa độ Y của phần tử
-                const yOffset = jobSection.getBoundingClientRect().top + window.pageYOffset;
-                
-                // Chiều cao cửa sổ
-                const windowHeight = window.innerHeight;
-                
-                // Tính toán vị trí cuộn mới để đưa phần tử về giữa màn hình
-                const scrollToPosition = yOffset - (windowHeight / 2) + (jobSection.offsetHeight / 2);
-
-                // 3. Thực hiện cuộn trang mượt mà
-                window.scrollTo({
-                    top: scrollToPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-        
-    </script>
+    
 </body>
 </html>
 </body>

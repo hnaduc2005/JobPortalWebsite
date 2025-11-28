@@ -519,6 +519,8 @@
     flex-shrink: 0;
 }
 
+
+
 /* --- Lưới Thẻ công việc (Job Cards Grid) --- */
 .job-cards-grid {
     display: grid;
