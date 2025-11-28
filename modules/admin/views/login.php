@@ -36,7 +36,6 @@ if (isPost()) {
     // ============================
     if (empty($errors)) {
         try {
-            // Lưu ý: đổi tên bảng / cột nếu khác trong DB của bạn.
             // Ở đây giả định bảng users có cột password chứa password đã hash bằng password().
             $stmt = $conn->prepare('SELECT id, email, password, fullname, role FROM user WHERE email = :email LIMIT 1');
             $stmt->execute([':email' => $email]);
@@ -66,7 +65,7 @@ if (isPost()) {
             
                     // Flash thành công và redirect
                     setSessionFlash('msg', 'Đăng nhập thành công. Chuyển đến trang quản trị...');
-                    setSessionFlash('msg_type', 'success');
+                    setSessionFlash('msg_type', 'success'); 
                     header('Location: ' . BASE_URL . '/?module=admin&action=dashboard');
                     exit;
                 } else {
