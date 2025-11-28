@@ -9,6 +9,7 @@ require_once __DIR__ . '/../../core/includes/mailer/Exception.php';
 require_once __DIR__ . '/../../core/includes/mailer/PHPMailer.php';
 require_once __DIR__ . '/../../core/includes/mailer/SMTP.php';
 
+
 require_once __DIR__ . '/../../core/includes/functions.php';
 
 const _ACTION = 'homepage';
