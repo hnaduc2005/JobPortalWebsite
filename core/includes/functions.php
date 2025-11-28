@@ -83,7 +83,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 // Hàm gửi Mail
 function sendMail($emailTo, $subject, $content) {
- 
+
     $mail = new PHPMailer(true);
 
     try {
