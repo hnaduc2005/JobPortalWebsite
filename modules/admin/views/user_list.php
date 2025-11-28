@@ -77,6 +77,23 @@ $roles = [
 ];
 
 ?>
+
+<?php if (isset($_GET['success']) && $_GET['success'] === 'deleted'): ?>
+<div class="alert alert-success">Đã xoá người dùng thành công!</div>
+<?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'invalid_id'): ?>
+<div class="alert alert-danger">ID không hợp lệ!</div>
+<?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'not_found'): ?>
+<div class="alert alert-warning">Người dùng không tồn tại!</div>
+<?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'delete_failed'): ?>
+<div class="alert alert-danger">Không thể xoá người dùng!</div>
+<?php endif; ?>
+
 <div class="container" style="margin-top: 25px;">
     <div class="container-fluid">
         <a href="?module=admin&action=add_user" class="btn btn-success mb-3">
@@ -144,13 +161,12 @@ $roles = [
                     </td>
 
                     <td>
-                        <!-- Lưu ý: link xóa đang trỏ về permission trong file gốc; giữ nguyên nếu đó là ý bạn.
-                        Nếu muốn xóa thực sự, đổi action thành delete_user hoặc tương tự ở controller. -->
-                        <a href="?module=admin&action=permission&id=<?php echo (int)$item['id']; ?>"
+                        <a href="?module=admin&action=delete&id=<?php echo (int)$item['id']; ?>"
                             onclick="return confirm('Bạn có chắc chắn muốn xoá người dùng này?')"
                             class="btn btn-danger">
                             <i class="fa-solid fa-trash-can"></i>
                         </a>
+
                     </td>
                 </tr>
                 <?php endforeach; ?>
