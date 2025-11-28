@@ -519,6 +519,23 @@
     flex-shrink: 0;
 }
 
+.custom-toast {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    background: #333;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 9999;
+}
+
+.custom-toast.show {
+    opacity: 1;
+    transform: translateY(10px);
+}
 
 
 /* --- Lưới Thẻ công việc (Job Cards Grid) --- */

@@ -380,7 +380,7 @@
         <div class="job-card">
             <div class="card-header">
                 <a href="/job/detail?id=<?php echo $jobId; ?>" class="job-title"><?php echo $jobTitle; ?></a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
+                <button class="favorite-btn" data-job-id="<?php echo $jobId; ?>"><i class="ti ti-heart"></i></button>
             </div>
             <div class="company-info">
                 <img src="<?php echo $logoUrl; ?>" alt="Logo Công ty" class="company-logo">
@@ -527,7 +527,7 @@
         <div class="job-card">
             <div class="card-header">
                 <a href="/job/detail?id=<?php echo $jobId; ?>" class="job-title"><?php echo $jobTitle; ?></a>
-                <button class="favorite-btn"><i class="ti ti-heart"></i></button>
+                <button class="favorite-btn" data-job-id="<?php echo $jobId; ?>"><i class="ti ti-heart"></i></button>
             </div>
             <div class="company-info">
                 <img src="<?php echo $logoUrl; ?>" alt="Logo Công ty" class="company-logo">
@@ -719,5 +719,53 @@
 
     </div>
 </div>
+<script>
+document.addEventListener("click", function (e) {
+    let btn = e.target.closest(".favorite-btn");
+    if (!btn) return; 
 
+    let postId = btn.dataset.jobId;
+
+    if (!postId) {
+        console.error("Không tìm thấy job-id");
+        return;
+    }
+
+    // Gửi AJAX bằng Fetch API (JS thuần)
+    fetch("JobPortalWebsite/?module=candidate&action=toggle_save_job", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "post_id=" + postId
+    })
+    .then(response => response.text())
+    .then(res => {
+        console.log(res);
+        if (res.action === "saved") {
+            btn.classList.remove("fa-regular");
+            btn.classList.add("fa-solid", "saved");
+        }
+        else if (res.action === "unsaved") {
+            btn.classList.remove("fa-solid", "saved");
+            btn.classList.add("fa-regular");
+        }
+
+        showToast(res.message);
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Lỗi hệ thống! Không thể lưu hoặc bỏ lưu.");
+    });
+});
+
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "custom-toast";
+    toast.innerText = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 50);
+    setTimeout(() => toast.classList.remove("show"), 2500);
+    setTimeout(() => toast.remove(), 3000);
+}
+</script>
 <?php require_once getCurrentPath() . '/core/templates/candidate_footer.php'; ?>
