@@ -1,11 +1,7 @@
 <?php 
-    require_once getCurrentPath() . '/core/templates/candidate_header.php'; 
-    // I. CÁC HÀM XỬ LÝ DỮ LIỆU
+    require_once __DIR__ . '/../../../core/templates/candidate_header.php'; 
 
     if (!function_exists('calculate_days_remaining')) {
-        /**
-         * Tính số ngày còn lại đến hạn chót (deadline).
-         */
         function calculate_days_remaining($deadline) {
             try {
                 $now = new DateTime();
@@ -218,18 +214,18 @@
 ?>
 
 <!-- SEARCH AND BANNER -->
-    <div class="search-section">
+<div class="search-section">
     <div class="search-bar-container">
         <div class="search-input-group">
             <span class="search-icon">🔍</span>
             <input type="text" placeholder="Nhập vị trí muốn ứng tuyển">
         </div>
-        
+
         <div class="search-dropdown-group">
             <span class="dropdown-icon">📖</span>
             <select>
                 <option>Tất cả nghề nghiệp</option>
-                </select>
+            </select>
             <span class="arrow-down"><i class="ti ti-angle-down"></i></span>
         </div>
 
@@ -237,7 +233,7 @@
             <span class="dropdown-icon">📍</span>
             <select>
                 <option>Tất cả tỉnh thành</option>
-                </select>
+            </select>
             <span class="arrow-down"><i class="ti ti-angle-down"></i></span>
         </div>
 
@@ -261,7 +257,7 @@
                 <p>Mô Phỏng Banner</p>
                 <h3>Làm DEV không kiệt sức</h3>
                 <p class="powered-by">Powered by TimViecLam</p>
-                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -274,15 +270,15 @@
     </h2>
 
     <div class="filter-bar">
-        
+
         <div class="filter-dropdown-container">
-            
+
             <div class="filter-trigger" id="filter-trigger">
                 <span class="icon"><i class="ti ti-filter"></i></span>
-                <span>Lọc theo: Địa điểm</span> 
+                <span>Lọc theo: Địa điểm</span>
                 <span class="arrow-down-small"><i class="ti ti-angle-down"></i></span>
             </div>
-            
+
             <div class="filter-panel">
                 <div class="filter-options-nav" id="filter-nav-tabs">
                     <div class="filter-tab active">Địa điểm</div>
@@ -292,9 +288,9 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="sub-filter-display">
-            
+
             <?php 
             // NÚT TẤT CẢ (ALL) - Job List ONE
             $isAnyFilterActive = !empty($filterLocation) || !empty($filterSalaryRange) || $filterExpMonths != -1 || $filterGroupId != 0;
@@ -304,9 +300,9 @@
             <a href="<?php echo $allLink; ?>" class="sub-filter-option all-filter <?php echo $isAllActive; ?>">
                 Tất cả
             </a>
-            
+
             <div class="sub-filter-options-wrapper">
-                
+
                 <div class="sub-filter-group active" id="sub-location">
                     <?php 
                     foreach ($availableLocations as $loc) {
@@ -314,7 +310,8 @@
                         $isActive = ($filterLocation === $locationName) ? 'active' : '';
                         $locationLink = buildFilterLink(['location' => $locationName, 'page' => 1]); 
                     ?>
-                        <a href="<?php echo $locationLink; ?>" class="sub-filter-option <?php echo $isActive; ?>"><?php echo $locationName; ?></a>
+                    <a href="<?php echo $locationLink; ?>"
+                        class="sub-filter-option <?php echo $isActive; ?>"><?php echo $locationName; ?></a>
                     <?php } ?>
                 </div>
 
@@ -324,10 +321,11 @@
                         $isActive = ($filterSalaryRange === $label) ? 'active' : '';
                         $salaryLink = buildFilterLink(['salary' => $label, 'page' => 1]);
                     ?>
-                        <a href="<?php echo $salaryLink; ?>" class="sub-filter-option <?php echo $isActive; ?>"><?php echo htmlspecialchars($label); ?></a>
+                    <a href="<?php echo $salaryLink; ?>"
+                        class="sub-filter-option <?php echo $isActive; ?>"><?php echo htmlspecialchars($label); ?></a>
                     <?php } ?>
                 </div>
-                
+
                 <div class="sub-filter-group" id="sub-experience">
                     <?php 
                     foreach ($availableExperiences as $exp) {
@@ -336,7 +334,8 @@
                         $isActive = ($filterExpMonths === $expMonths) ? 'active' : '';
                         $expLink = buildFilterLink(['exp' => $expMonths, 'page' => 1]);
                     ?>
-                        <a href="<?php echo $expLink; ?>" class="sub-filter-option <?php echo $isActive; ?>"><?php echo $expLabel; ?></a>
+                    <a href="<?php echo $expLink; ?>"
+                        class="sub-filter-option <?php echo $isActive; ?>"><?php echo $expLabel; ?></a>
                     <?php } ?>
                 </div>
 
@@ -348,7 +347,8 @@
                         $isActive = ($filterGroupId === $groupId) ? 'active' : '';
                         $groupLink = buildFilterLink(['group_id' => $groupId, 'page' => 1]);
                     ?>
-                        <a href="<?php echo $groupLink; ?>" class="sub-filter-option <?php echo $isActive; ?>"><?php echo $groupName; ?></a>
+                    <a href="<?php echo $groupLink; ?>"
+                        class="sub-filter-option <?php echo $isActive; ?>"><?php echo $groupName; ?></a>
                     <?php } ?>
                 </div>
 
@@ -359,7 +359,7 @@
     </div>
 
     <div class="job-cards-grid">
-        
+
         <?php 
         if (!empty($jobs)) {
             // Vòng lặp cho JOB LIST ONE
@@ -376,7 +376,7 @@
                 $logoUrl = !empty($job['logo']) ? htmlspecialchars($job['logo']) : './assets/imgs/default.png';
                 $tagHtml = ($job['is_hot'] == 1) ? '<span class="tag hot">HOT</span>' : '';
         ?>
-        
+
         <div class="job-card">
             <div class="card-header">
                 <a href="/job/detail?id=<?php echo $jobId; ?>" class="job-title"><?php echo $jobTitle; ?></a>
@@ -395,7 +395,7 @@
                 <span class="days-ago">⏰ <?php echo $daysRemaining; ?></span>
             </div>
         </div>
-        
+
         <?php
             } 
         } else {
@@ -404,20 +404,19 @@
         ?>
 
     </div>
-    
+
     <div class="pagination">
         <?php if (isset($totalPages) && $totalPages > 1) { ?>
-            <a href="<?php echo $prevLink; ?>"
-            class="prev-page <?php echo ($currentPage <= 1) ? 'disabled' : 'active'; ?>">
-                <i class="ti ti-angle-left"></i>
-            </a>
-            
-            <span class="page-info"><?php echo $currentPage; ?> / <?php echo $totalPages; ?></span>
-            
-            <a href="<?php echo $nextLink; ?>"
+        <a href="<?php echo $prevLink; ?>" class="prev-page <?php echo ($currentPage <= 1) ? 'disabled' : 'active'; ?>">
+            <i class="ti ti-angle-left"></i>
+        </a>
+
+        <span class="page-info"><?php echo $currentPage; ?> / <?php echo $totalPages; ?></span>
+
+        <a href="<?php echo $nextLink; ?>"
             class="next-page <?php echo ($currentPage >= $totalPages) ? 'disabled' : 'active'; ?>">
-                <i class="ti ti-angle-right"></i>
-            </a>
+            <i class="ti ti-angle-right"></i>
+        </a>
         <?php } else {
             echo '<span class="page-info">1 / 1</span>';
         } ?>
@@ -429,19 +428,19 @@
 <!-- JOB LIST TWO -->
 <div class="job-listing-section immediate-jobs-section">
     <h2 class="section-title">
-        <span class="fire-icon immediate-icon">🔴</span> Việc đi làm ngay 
+        <span class="fire-icon immediate-icon">🔴</span> Việc đi làm ngay
         <a href="#" class="view-all-link">Xem tất cả <i class="ti ti-arrow-right"></i></a>
     </h2>
 
     <div class="filter-bar">
-        
+
         <div class="filter-dropdown-container">
             <div class="filter-trigger">
                 <span class="icon"><i class="ti ti-filter"></i></span>
-                <span>Lọc theo: Địa điểm</span> 
+                <span>Lọc theo: Địa điểm</span>
                 <span class="arrow-down-small"><i class="ti ti-angle-down"></i></span>
             </div>
-            
+
             <div class="filter-panel">
                 <div class="filter-options-nav">
                     <div class="filter-tab active">Địa điểm</div>
@@ -450,21 +449,22 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="sub-filter-display">
-            
+
             <?php 
             // NÚT TẤT CẢ (ALL) - Job List TWO
             $isImmediateFilterActive = !empty($filterLocation) || !empty($filterSalaryRange) || $filterExpMonths != -1;
             $isAllImmediateActive = !$isImmediateFilterActive ? 'active' : '';
             $allImmediateLink = buildFilterLink(['location' => '', 'salary' => '', 'exp' => '', 'group_id' => '', 'ipage' => 1]); 
             ?>
-            <a href="<?php echo $allImmediateLink; ?>" class="sub-filter-option all-filter <?php echo $isAllImmediateActive; ?>">
+            <a href="<?php echo $allImmediateLink; ?>"
+                class="sub-filter-option all-filter <?php echo $isAllImmediateActive; ?>">
                 Tất cả
             </a>
-            
+
             <div class="sub-filter-options-wrapper">
-                
+
                 <div class="sub-filter-group active" id="immediate-location">
                     <?php 
                     foreach ($availableLocations as $loc) {
@@ -472,7 +472,8 @@
                         $isActive = ($filterLocation === $locationName) ? 'active' : '';
                         $locationLink = buildFilterLink(['location' => $locationName, 'ipage' => 1]); // Dùng ipage
                     ?>
-                        <a href="<?php echo $locationLink; ?>" class="sub-filter-option <?php echo $isActive; ?>"><?php echo $locationName; ?></a>
+                    <a href="<?php echo $locationLink; ?>"
+                        class="sub-filter-option <?php echo $isActive; ?>"><?php echo $locationName; ?></a>
                     <?php } ?>
                 </div>
 
@@ -482,10 +483,11 @@
                         $isActive = ($filterSalaryRange === $label) ? 'active' : '';
                         $salaryLink = buildFilterLink(['salary' => $label, 'ipage' => 1]);
                     ?>
-                        <a href="<?php echo $salaryLink; ?>" class="sub-filter-option <?php echo $isActive; ?>"><?php echo htmlspecialchars($label); ?></a>
+                    <a href="<?php echo $salaryLink; ?>"
+                        class="sub-filter-option <?php echo $isActive; ?>"><?php echo htmlspecialchars($label); ?></a>
                     <?php } ?>
                 </div>
-                
+
                 <div class="sub-filter-group" id="sub-experience-imm">
                     <?php 
                     foreach ($availableExperiences as $exp) {
@@ -494,7 +496,8 @@
                         $isActive = ($filterExpMonths === $expMonths) ? 'active' : '';
                         $expLink = buildFilterLink(['exp' => $expMonths, 'ipage' => 1]);
                     ?>
-                        <a href="<?php echo $expLink; ?>" class="sub-filter-option <?php echo $isActive; ?>"><?php echo $expLabel; ?></a>
+                    <a href="<?php echo $expLink; ?>"
+                        class="sub-filter-option <?php echo $isActive; ?>"><?php echo $expLabel; ?></a>
                     <?php } ?>
                 </div>
 
@@ -505,7 +508,7 @@
     </div>
 
     <div class="job-cards-grid">
-        
+
         <?php 
         if (!empty($immediateJobs)) {
             // Vòng lặp cho JOB LIST TWO
@@ -523,7 +526,7 @@
                 // Thẻ tag phụ (Giả định: Không cần CV nếu không phải full-time)
                 $secondaryTag = (isset($job['employment_type']) && $job['employment_type'] !== 'full-time') ? '<span class="tag secondary-tag">Không cần CV</span>' : '';
         ?>
-        
+
         <div class="job-card">
             <div class="card-header">
                 <a href="/job/detail?id=<?php echo $jobId; ?>" class="job-title"><?php echo $jobTitle; ?></a>
@@ -542,7 +545,7 @@
                 <span class="days-ago">⏰ <?php echo $daysRemaining; ?></span>
             </div>
         </div>
-        
+
         <?php
             } 
         } else {
@@ -551,22 +554,22 @@
         ?>
 
     </div>
-    
+
     <div class="pagination">
         <?php 
         if (isset($totalImmediatePages) && $totalImmediatePages > 1) { 
         ?>
-            <a href="<?php echo $prevImmediateLink; ?>" 
-               class="prev-page <?php echo ($currentImmediatePage <= 1) ? 'disabled' : 'active'; ?>">
-                <i class="ti ti-angle-left"></i>
-            </a>
-            
-            <span class="page-info"><?php echo $currentImmediatePage; ?> / <?php echo $totalImmediatePages; ?></span>
-            
-            <a href="<?php echo $nextImmediateLink; ?>" 
-               class="next-page <?php echo ($currentImmediatePage >= $totalImmediatePages) ? 'disabled' : 'active'; ?>">
-                <i class="ti ti-angle-right"></i>
-            </a>
+        <a href="<?php echo $prevImmediateLink; ?>"
+            class="prev-page <?php echo ($currentImmediatePage <= 1) ? 'disabled' : 'active'; ?>">
+            <i class="ti ti-angle-left"></i>
+        </a>
+
+        <span class="page-info"><?php echo $currentImmediatePage; ?> / <?php echo $totalImmediatePages; ?></span>
+
+        <a href="<?php echo $nextImmediateLink; ?>"
+            class="next-page <?php echo ($currentImmediatePage >= $totalImmediatePages) ? 'disabled' : 'active'; ?>">
+            <i class="ti ti-angle-right"></i>
+        </a>
         <?php 
         } else {
             echo '<span class="page-info">1 / 1</span>'; 
@@ -584,7 +587,7 @@
     </h2>
 
     <div class="company-cards-grid">
-        
+
         <div class="company-card">
             <div class="logo-container">
                 <img src="./assets/imgs/logo_timvieclam.jpg" alt="Logo GSC" class="company-logo-img">
@@ -638,7 +641,7 @@
                 <span class="icon"><i class="ti ti-briefcase"></i></span> 4 vị trí đang tuyển
             </div>
         </div>
-        
+
     </div>
 </div>
 <!-- END FEATURED COMPANIES -->
@@ -648,13 +651,14 @@
     <h2 class="handbook-title">Cẩm nang nghề nghiệp</h2>
 
     <div class="handbook-articles-grid">
-        
+
         <div class="article-card">
             <div class="article-image-container">
                 <img src="./assets/imgs/logo_timvieclam.jpg" alt="Sự kiện HR Nexus" class="article-image">
             </div>
             <h3 class="article-title">HR NEXUS #2: Xây dựng đội ngũ hiệu suất cao trong kỷ nguyên AI</h3>
-            <p class="article-summary">Tiếp nối chuỗi sự kiện nhân sự - networking của Vieclam24h dành cho cộng đồng HR cấp cao, chương trình HR NEXUS #2 - "Xây dựng đội ngũ hiệu...</p>
+            <p class="article-summary">Tiếp nối chuỗi sự kiện nhân sự - networking của Vieclam24h dành cho cộng đồng HR
+                cấp cao, chương trình HR NEXUS #2 - "Xây dựng đội ngũ hiệu...</p>
         </div>
 
         <div class="article-card">
@@ -662,7 +666,8 @@
                 <img src="./assets/imgs/logo_timvieclam.jpg" alt="Công việc lý tưởng cho nữ" class="article-image">
             </div>
             <h3 class="article-title">10 công việc lý tưởng giúp trả lời câu hỏi con gái nên học ngành gì</h3>
-            <p class="article-summary">Con gái nên học ngành gì? Con gái khi chọn nghề nghiệp phù hợp nên lưu ý điều gì? Việc làm phù hợp cho phái nữ gồm các ngành nào?</p>
+            <p class="article-summary">Con gái nên học ngành gì? Con gái khi chọn nghề nghiệp phù hợp nên lưu ý điều gì?
+                Việc làm phù hợp cho phái nữ gồm các ngành nào?</p>
         </div>
 
         <div class="article-card">
@@ -670,10 +675,11 @@
                 <img src="./assets/imgs/logo_timvieclam.jpg" alt="Top 8 nghề nghiệp lương cao" class="article-image">
             </div>
             <h3 class="article-title">Nên học nghề gì khi không học Đại học? Top 8 nghề nghiệp lương cao hiện nay</h3>
-            <p class="article-summary">Việc học nghề đã trở thành một trong những giải pháp an toàn để bạn có một công việc ổn định cho bản thân. Vậy thực chất học nghề là gì?</p>
+            <p class="article-summary">Việc học nghề đã trở thành một trong những giải pháp an toàn để bạn có một công
+                việc ổn định cho bản thân. Vậy thực chất học nghề là gì?</p>
         </div>
     </div>
-    
+
     <div class="view-more-container">
         <a href="#" class="view-more-link">Xem thêm cẩm nang nghề nghiệp</a>
     </div>
@@ -681,7 +687,7 @@
 <!-- END CẨM NANG NGHỀ NGHIỆP -->
 <div class="quick-links-footer-section">
     <div class="quick-links-container">
-        
+
         <div class="footer-column">
             <h3 class="footer-title">Việc làm theo nghề nghiệp</h3>
             <ul class="footer-list">
@@ -720,4 +726,4 @@
     </div>
 </div>
 
-<?php require_once getCurrentPath() . '/core/templates/candidate_footer.php'; ?>
+<?php require_once __DIR__ . '/../../../core/templates/candidate_footer.php'; ?>
