@@ -116,6 +116,7 @@ function sendMail($emailTo, $subject, $content) {
         );
 
         return $mail->send();
+        
     } catch (Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
