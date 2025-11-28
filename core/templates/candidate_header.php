@@ -37,11 +37,13 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/reset.css">
-    <link rel="stylesheet" href="./assets/css/base.css">
-    <link rel="stylesheet" href="./assets/css/main.css">
-    <link rel="stylesheet" href="./assets/css/candidate/homePage.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/candidate/homePage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@icon/themify-icons@1.0.1-alpha.3/themify-icons.min.css">
     <title>Header</title>
 </head>
@@ -59,7 +61,7 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
                             <span class="title">Việc làm <i class="fa-solid fa-caret-down"></i></span>
                             <ul class="submenu-main">
                                 <li><a href="#"><i class="fa-solid fa-magnifying-glass"></i> Tìm việc làm</a></li>
-                                
+
                                 <?php if ($isLoggedIn): ?>
                                 <li class="has-child">
                                     <div class="parent-item">
@@ -68,10 +70,16 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
                                             <i class="fa-solid fa-chevron-down arrow"></i>
                                         </div>
                                         <ul class="submenu-listchild">
-                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
-                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
-                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/wait-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
-                                            <li><a href="#"><i class="fa-solid fa-circle"></i> Nhà tuyển dụng xem hồ sơ</a></li>
+                                            <li><a
+                                                    href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
+                                            <li><a
+                                                    href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
+                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/wait-job_page.php"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
+                                            <li><a href="#"><i class="fa-solid fa-circle"></i> Nhà tuyển dụng xem hồ
+                                                    sơ</a></li>
                                         </ul>
                                     </div>
                                 </li>
@@ -91,7 +99,7 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
                 </div>
 
                 <div class="inner-right">
-                    
+
                     <?php if ($isLoggedIn): ?>
                     <div class="inner-item">
                         <div class="item item-one">
@@ -105,7 +113,8 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
                             </button>
 
                             <ul class="submenu-main">
-                                <li><a href="<?php echo BASE_URL; ?>/modules/candidate/profile.php"><i class="fa-solid fa-user"></i> Hồ sơ của tôi</a></li>
+                                <li><a href="<?php echo BASE_URL; ?>/modules/candidate/profile.php"><i
+                                            class="fa-solid fa-user"></i> Hồ sơ của tôi</a></li>
 
                                 <li class="has-child">
                                     <div class="parent-item">
@@ -114,16 +123,24 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
                                             <i class="fa-solid fa-chevron-down arrow"></i>
                                         </div>
                                         <ul class="submenu-listchild">
-                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
-                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
-                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/wait-job_page.php"><i class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
-                                            <li><a href="#"><i class="fa-solid fa-circle"></i> Nhà tuyển dụng xem hồ sơ</a></li>
+                                            <li><a
+                                                    href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
+                                            <li><a
+                                                    href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
+                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/wait-job_page.php"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
+                                            <li><a href="#"><i class="fa-solid fa-circle"></i> Nhà tuyển dụng xem hồ
+                                                    sơ</a></li>
                                         </ul>
                                     </div>
                                 </li>
-                                <li><a href="<?php echo BASE_URL; ?>/modules/candidate/account_manage.php"><i class="fa-solid fa-gear"></i> Quản lý tài khoản</a></li>
-                                
-                                <li><a href="<?php echo $logoutUrl; ?>" id="logoutButton"><i class="fa-solid fa-sign-out-alt"></i> Đăng xuất</a></li> 
+                                <li><a href="<?php echo BASE_URL; ?>/modules/candidate/account_manage.php"><i
+                                            class="fa-solid fa-gear"></i> Quản lý tài khoản</a></li>
+
+                                <li><a href="<?php echo $logoutUrl; ?>" id="logoutButton"><i
+                                            class="fa-solid fa-sign-out-alt"></i> Đăng xuất</a></li>
                             </ul>
                         </div>
                     </div>
@@ -132,21 +149,24 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
                     <div class="inner-item">
                         <div class="text-white-1">
                             <span class="text-inform">Người Tìm Việc</span>
-                            <a href="<?php echo $loginUrl; ?>" class="text-register" style="color: #fff">Đăng ký/Đăng nhập</a>
+                            <a href="<?php echo $loginUrl; ?>" class="text-register" style="color: #fff">Đăng ký/Đăng
+                                nhập</a>
                         </div>
-                    
+
                         <div class="text-white-2">
                             <div class="icon"><i class="fa-solid fa-suitcase"></i></div>
                             <div class="employer">
                                 <span class="text-inform">Dành cho</span>
-                                <a href="<?php echo $employerLoginUrl; ?>" class="text-register" style="color: #fff">Nhà Tuyển Dụng</a>
+                                <a href="<?php echo $employerLoginUrl; ?>" class="text-register" style="color: #fff">Nhà
+                                    Tuyển Dụng</a>
                             </div>
                         </div>
                     </div>
                     <?php endif; ?>
 
                     <div class="inner-translate">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png" alt="flag">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/1280px-Flag_of_the_United_States.svg.png"
+                            alt="flag">
                     </div>
                 </div>
             </div>
