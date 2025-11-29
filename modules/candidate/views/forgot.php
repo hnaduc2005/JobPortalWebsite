@@ -137,7 +137,7 @@ $errors = getSessionFlash('errors');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quên Mật Khẩu</title>
-    <link rel="stylesheet" href="https://timviec.io.vn/JobPortalWebsite/assets/css/Candidate/loginforgot.css">
+    <link rel="stylesheet" href="https://timviec.io.vn/JobPortalWebsite/assets/css/Candidate/forgot.css">
 </head>
 
 <body>
