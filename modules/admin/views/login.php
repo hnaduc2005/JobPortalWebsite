@@ -57,7 +57,7 @@ if (isPost()) {
                     $errors['general'] = "Tài khoản không có quyền truy cập trang quản trị.";
                 }
 
-                // ⚠️ QUAN TRỌNG: Kiểm tra mật khẩu HASH
+                // Kiểm tra mật khẩu HASH
                 elseif (!password_verify($password, $user['password'])) {
                     $errors['general'] = "Email hoặc mật khẩu không đúng.";
                 }

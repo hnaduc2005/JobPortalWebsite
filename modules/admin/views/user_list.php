@@ -4,6 +4,7 @@
 // Giữ các hàm trợ giúp: checkAccessToken(), filterData(), isGet(), getOne(), getAll()
 
 checkAccessToken();
+require_once __DIR__ . "/check_login.php";
 require_once __DIR__ . "/header.php";
 require_once __DIR__ . "/sidebar.php";
 

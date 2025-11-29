@@ -1,6 +1,7 @@
 <?php
 
 checkAccessToken();
+require_once __DIR__ . "/check_login.php";
 require_once __DIR__ . "/../../../core/includes/connect.php";
 require_once __DIR__ . "/../../../core/includes/database.php";
 
