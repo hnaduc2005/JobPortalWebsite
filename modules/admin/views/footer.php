@@ -5,7 +5,7 @@
     <!--end::To the end-->
     <!--begin::Copyright-->
     <strong>
-        Hệ thống quản trị khoá học &copy; 2025&nbsp;
+        Hệ thống quản lí cổng thông tin việc làm &copy; 2025&nbsp;
     </strong>
     All rights reserved.
     <!--end::Copyright-->
