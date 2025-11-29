@@ -79,6 +79,21 @@ $roles = [
 ?>
 
 <div class="container" style="margin-top: 25px;">
+    <?php if (isset($_GET['success']) && $_GET['success'] === 'updated_permission'): ?>
+    <div class="alert alert-success">Phân quyền thành công!</div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['error'])): ?>
+    <div class="alert alert-danger">
+        <?php 
+            if ($_GET['error'] === 'invalid_id') echo "ID không hợp lệ.";
+            if ($_GET['error'] === 'user_not_found') echo "Không tìm thấy người dùng.";
+            if ($_GET['error'] === 'invalid_role') echo "Quyền không hợp lệ.";
+            if ($_GET['error'] === 'update_failed') echo "Cập nhật thất bại.";
+        ?>
+    </div>
+    <?php endif; ?>
+
     <?php if (isset($_GET['success']) && $_GET['success'] === 'deleted'): ?>
     <div class="alert alert-success">Đã xoá người dùng thành công!</div>
     <?php endif; ?>
