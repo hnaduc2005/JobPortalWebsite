@@ -132,12 +132,14 @@ $errors = getSessionFlash('errors');
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quên Mật Khẩu</title>
-    <link rel="stylesheet" href="./assets/css/Candidate/forgot.css">
+    <link rel="stylesheet" href="https://timviec.io.vn/JobPortalWebsite/assets/css/Candidate/loginforgot.css">
 </head>
+
 <body>
     <div class="forgot-container">
         <div class="forgot-header">
@@ -149,32 +151,27 @@ $errors = getSessionFlash('errors');
         </div>
 
         <?php if (!empty($msg)): ?>
-            <div class="alert alert-<?php echo htmlspecialchars($msg_type); ?>">
-                <?php echo htmlspecialchars($msg); ?>
-            </div>
+        <div class="alert alert-<?php echo htmlspecialchars($msg_type); ?>">
+            <?php echo htmlspecialchars($msg); ?>
+        </div>
         <?php endif; ?>
 
         <?php if (!empty($errors['general'])): ?>
-            <div class="alert alert-danger">
-                <?php echo htmlspecialchars($errors['general']); ?>
-            </div>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($errors['general']); ?>
+        </div>
         <?php endif; ?>
 
         <form method="POST" action="">
             <div class="form-group">
                 <label for="email">Email</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    placeholder="Nhập địa chỉ email của bạn"
+                <input type="email" id="email" name="email" placeholder="Nhập địa chỉ email của bạn"
                     value="<?php echo htmlspecialchars($old['email'] ?? ''); ?>"
-                    class="<?php echo !empty($errors['email']) ? 'error' : ''; ?>"
-                >
+                    class="<?php echo !empty($errors['email']) ? 'error' : ''; ?>">
                 <?php if (!empty($errors['email'])): ?>
-                    <span class="error-message">
-                        <?php echo htmlspecialchars(reset($errors['email'])); ?>
-                    </span>
+                <span class="error-message">
+                    <?php echo htmlspecialchars(reset($errors['email'])); ?>
+                </span>
                 <?php endif; ?>
             </div>
 
@@ -190,4 +187,5 @@ $errors = getSessionFlash('errors');
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
+
 </html>

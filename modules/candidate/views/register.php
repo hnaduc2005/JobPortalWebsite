@@ -181,12 +181,14 @@ $errors = getSessionFlash('errors');
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Ký Ứng Viên</title>
-    <link rel="stylesheet" href="./assets/css/Candidate/register.css">
+    <link rel="stylesheet" href="https://timviec.io.vn/JobPortalWebsite/assets/css/Candidate/register.css">
 </head>
+
 <body>
     <div class="register-container">
         <div class="register-header">
@@ -195,101 +197,74 @@ $errors = getSessionFlash('errors');
         </div>
 
         <?php if (!empty($msg)): ?>
-            <div class="alert alert-<?php echo htmlspecialchars($msg_type); ?>">
-                <?php echo htmlspecialchars($msg); ?>
-            </div>
+        <div class="alert alert-<?php echo htmlspecialchars($msg_type); ?>">
+            <?php echo htmlspecialchars($msg); ?>
+        </div>
         <?php endif; ?>
 
         <?php if (!empty($errors['general'])): ?>
-            <div class="alert alert-danger">
-                <?php echo htmlspecialchars($errors['general']); ?>
-            </div>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($errors['general']); ?>
+        </div>
         <?php endif; ?>
 
         <form id="registerForm" method="POST" action="">
             <div class="form-group">
                 <label for="fullname">Họ và tên <span class="required">*</span></label>
-                <input 
-                    type="text" 
-                    id="fullname" 
-                    name="fullname" 
-                    placeholder="Nhập họ và tên đầy đủ"
+                <input type="text" id="fullname" name="fullname" placeholder="Nhập họ và tên đầy đủ"
                     value="<?php echo htmlspecialchars($old['fullname'] ?? ''); ?>"
-                    class="<?php echo !empty($errors['fullname']) ? 'error' : ''; ?>"
-                >
+                    class="<?php echo !empty($errors['fullname']) ? 'error' : ''; ?>">
                 <?php if (!empty($errors['fullname'])): ?>
-                    <span class="error-message">
-                        <?php echo htmlspecialchars(reset($errors['fullname'])); ?>
-                    </span>
+                <span class="error-message">
+                    <?php echo htmlspecialchars(reset($errors['fullname'])); ?>
+                </span>
                 <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label for="email">Email <span class="required">*</span></label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    placeholder="Nhập địa chỉ email"
-                    autocomplete="email"
+                <input type="email" id="email" name="email" placeholder="Nhập địa chỉ email" autocomplete="email"
                     value="<?php echo htmlspecialchars($old['email'] ?? ''); ?>"
-                    class="<?php echo !empty($errors['email']) ? 'error' : ''; ?>"
-                >
+                    class="<?php echo !empty($errors['email']) ? 'error' : ''; ?>">
                 <?php if (!empty($errors['email'])): ?>
-                    <span class="error-message">
-                        <?php echo htmlspecialchars(reset($errors['email'])); ?>
-                    </span>
+                <span class="error-message">
+                    <?php echo htmlspecialchars(reset($errors['email'])); ?>
+                </span>
                 <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label for="phone">Số điện thoại <span class="optional">(Không bắt buộc)</span></label>
-                <input 
-                    type="tel" 
-                    id="phone" 
-                    name="phone" 
-                    placeholder="Nhập số điện thoại (10-11 số)"
+                <input type="tel" id="phone" name="phone" placeholder="Nhập số điện thoại (10-11 số)"
                     value="<?php echo htmlspecialchars($old['phone'] ?? ''); ?>"
-                    class="<?php echo !empty($errors['phone']) ? 'error' : ''; ?>"
-                >
+                    class="<?php echo !empty($errors['phone']) ? 'error' : ''; ?>">
                 <?php if (!empty($errors['phone'])): ?>
-                    <span class="error-message">
-                        <?php echo htmlspecialchars(reset($errors['phone'])); ?>
-                    </span>
+                <span class="error-message">
+                    <?php echo htmlspecialchars(reset($errors['phone'])); ?>
+                </span>
                 <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label for="password">Mật khẩu <span class="required">*</span></label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
-                    autocomplete="new-password"
-                    class="<?php echo !empty($errors['password']) ? 'error' : ''; ?>"
-                >
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
+                    autocomplete="new-password" class="<?php echo !empty($errors['password']) ? 'error' : ''; ?>">
                 <?php if (!empty($errors['password'])): ?>
-                    <span class="error-message">
-                        <?php echo htmlspecialchars(reset($errors['password'])); ?>
-                    </span>
+                <span class="error-message">
+                    <?php echo htmlspecialchars(reset($errors['password'])); ?>
+                </span>
                 <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label for="confirm_password">Xác nhận mật khẩu <span class="required">*</span></label>
-                <input 
-                    type="password" 
-                    id="confirm_password" 
-                    name="confirm_password" 
-                    placeholder="Nhập lại mật khẩu"
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu"
                     autocomplete="new-password"
-                    class="<?php echo !empty($errors['confirm_password']) ? 'error' : ''; ?>"
-                >
+                    class="<?php echo !empty($errors['confirm_password']) ? 'error' : ''; ?>">
                 <?php if (!empty($errors['confirm_password'])): ?>
-                    <span class="error-message">
-                        <?php echo htmlspecialchars(reset($errors['confirm_password'])); ?>
-                    </span>
+                <span class="error-message">
+                    <?php echo htmlspecialchars(reset($errors['confirm_password'])); ?>
+                </span>
                 <?php endif; ?>
             </div>
 
@@ -305,4 +280,5 @@ $errors = getSessionFlash('errors');
         </div>
     </div>
 </body>
+
 </html>

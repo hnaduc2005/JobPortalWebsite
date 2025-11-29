@@ -122,12 +122,14 @@ $errors = getSessionFlash('errors');
 
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đặt Lại Mật Khẩu</title>
-    <link rel="stylesheet" href="./assets/css/Candidate/reset.css">
+    <link rel="stylesheet" href="https://timviec.io.vn/JobPortalWebsite/assets/css/Candidate/reset.css">
 </head>
+
 <body>
     <div class="reset-container">
         <div class="reset-header">
@@ -143,49 +145,38 @@ $errors = getSessionFlash('errors');
         </div>
 
         <?php if (!empty($msg)): ?>
-            <div class="alert alert-<?php echo htmlspecialchars($msg_type); ?>">
-                <?php echo htmlspecialchars($msg); ?>
-            </div>
+        <div class="alert alert-<?php echo htmlspecialchars($msg_type); ?>">
+            <?php echo htmlspecialchars($msg); ?>
+        </div>
         <?php endif; ?>
 
         <?php if (!empty($errors['general'])): ?>
-            <div class="alert alert-danger">
-                <?php echo htmlspecialchars($errors['general']); ?>
-            </div>
+        <div class="alert alert-danger">
+            <?php echo htmlspecialchars($errors['general']); ?>
+        </div>
         <?php endif; ?>
 
         <form method="POST" action="">
             <div class="form-group">
                 <label for="password">Mật khẩu mới</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                    placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"
-                    class="<?php echo !empty($errors['password']) ? 'error' : ''; ?>"
-                    autocomplete="new-password"
-                >
+                <input type="password" id="password" name="password" placeholder="Nhập mật khẩu mới (tối thiểu 6 ký tự)"
+                    class="<?php echo !empty($errors['password']) ? 'error' : ''; ?>" autocomplete="new-password">
                 <?php if (!empty($errors['password'])): ?>
-                    <span class="error-message">
-                        <?php echo htmlspecialchars(reset($errors['password'])); ?>
-                    </span>
+                <span class="error-message">
+                    <?php echo htmlspecialchars(reset($errors['password'])); ?>
+                </span>
                 <?php endif; ?>
             </div>
 
             <div class="form-group">
                 <label for="confirm_password">Xác nhận mật khẩu mới</label>
-                <input 
-                    type="password" 
-                    id="confirm_password" 
-                    name="confirm_password" 
-                    placeholder="Nhập lại mật khẩu mới"
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu mới"
                     class="<?php echo !empty($errors['confirm_password']) ? 'error' : ''; ?>"
-                    autocomplete="new-password"
-                >
+                    autocomplete="new-password">
                 <?php if (!empty($errors['confirm_password'])): ?>
-                    <span class="error-message">
-                        <?php echo htmlspecialchars(reset($errors['confirm_password'])); ?>
-                    </span>
+                <span class="error-message">
+                    <?php echo htmlspecialchars(reset($errors['confirm_password'])); ?>
+                </span>
                 <?php endif; ?>
             </div>
 
@@ -201,4 +192,5 @@ $errors = getSessionFlash('errors');
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 </body>
+
 </html>
