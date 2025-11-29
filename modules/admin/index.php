@@ -8,7 +8,7 @@ require_once __DIR__ . '/../../core/includes/functions.php';
 // ===========================
 // Router xử lý action
 // ===========================
-const _ACTION = 'dashboard';
+const _ACTION = 'login';
 
 // Lấy action từ URL
 $action = $_GET['action'] ?? _ACTION;
