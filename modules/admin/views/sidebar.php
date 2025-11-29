@@ -3,12 +3,9 @@
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand">
         <!--begin::Brand Link-->
-        <a href="./index.html" class="brand-link">
-            <!--begin::Brand Image-->
-            <img src="./assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
-            <!--end::Brand Image-->
+        <a href="?module=admin&action=dashboard" class="brand-link">
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">AdminLTE 4</span>
+            <span class="brand-text fw-light">AdminPage</span>
             <!--end::Brand Text-->
         </a>
         <!--end::Brand Link-->
@@ -33,7 +30,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-box-seam-fill"></i>
                         <p>
-                            Khoá học
+                            Bài đăng
                             <i class="nav-arrow bi bi-chevron-right"></i>
                         </p>
                     </a>
@@ -42,12 +39,6 @@
                             <a href="./widgets/small-box.html" class="nav-link">
                                 <i class="nav-icon bi bi-circle"></i>
                                 <p>Danh sách</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="./widgets/info-box.html" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i>
-                                <p>Thêm khoá học mới</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -80,24 +71,6 @@
                             </a>
                         </li>
 
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon bi bi-pencil-square"></i>
-                        <p>
-                            Học viên
-                            <i class="nav-arrow bi bi-chevron-right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="./forms/general.html" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i>
-                                <p>Danh sách</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
 
