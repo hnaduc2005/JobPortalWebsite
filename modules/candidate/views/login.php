@@ -198,7 +198,7 @@ $errors = getSessionFlash('errors');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Nhập</title>
-    <link rel="stylesheet" href=" https://timviec.io.vn/assets/css/Candidate/login.css">
+    <link rel="stylesheet" href="https://timviec.io.vn/JobPortalWebsite/assets/css/Candidate/login.css">
 </head>
 
 <body>
