@@ -42,7 +42,7 @@
         crossorigin="anonymous" />
     <!--end::Third Party Plugin(Bootstrap Icons)-->
     <!--begin::Required Plugin(AdminLTE)-->
-    <link rel="stylesheet" href="http://localhost/mini_app/templates/assets/css/adminlte.css" />
+    <link rel="stylesheet" href="https://timviec.io.vn/JobPortalWebsite/assets/css/adminlte.css" />
     <!--end::Required Plugin(AdminLTE)-->
 </head>
 <!--end::Head-->
