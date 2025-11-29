@@ -26,7 +26,7 @@ if ($isLoggedIn) {
 // --- BƯỚC 3: ĐỊNH NGHĨA CÁC URL VÀ VAI TRÒ ---
 $homeUrl = BASE_URL;
 $loginUrl = BASE_URL . '?module=candidate&action=login';
-$employerLoginUrl = BASE_URL . '?module=employer&action=login';
+$employerLoginUrl = 'https://employer.timviec.io.vn/';
 $logoutUrl = BASE_URL . '?module=candidate&action=logout';
 $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
 ?>
@@ -71,9 +71,15 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
                                             <i class="fa-solid fa-chevron-down arrow"></i>
                                         </div>
                                         <ul class="submenu-listchild">
-                                            <li><a href="<?php echo BASE_URL; ?>/?module=candidate&action=applied-job_page"><i class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
-                                            <li><a href="<?php echo BASE_URL; ?>/?module=candidate&action=saved-job_page"><i class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
-                                            <li><a href="<?php echo BASE_URL; ?>/?module=candidate&action=wait-job_page"><i class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
+                                            <li><a
+                                                    href="<?php echo BASE_URL; ?>/?module=candidate&action=applied-job_page"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
+                                            <li><a
+                                                    href="<?php echo BASE_URL; ?>/?module=candidate&action=saved-job_page"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
+                                            <li><a
+                                                    href="<?php echo BASE_URL; ?>/?module=candidate&action=wait-job_page"><i
+                                                        class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
                                         </ul>
                                     </div>
                                 </li>

@@ -32,6 +32,7 @@ $success = $stmt->execute([
     ':id'   => $id
 ]);
 
+
 if ($success) {
     header("Location: ?module=admin&action=user_list&success=updated_permission");
     exit;
