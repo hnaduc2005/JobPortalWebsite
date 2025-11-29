@@ -1,10 +1,76 @@
-<?php require_once getCurrentPath() . '/core/templates/candidate_header.php'; ?>
+<?php 
+    ini_set('display_errors', 0); // Quan trọng nhất để ngăn HTML lỗi xuất hiện
+    error_reporting(0);
+
+    require_once getCurrentPath() . '/core/templates/candidate_header.php';
+
+    // 1. Lấy dữ liệu người dùng từ Session
+    $userData = getSession('user'); 
+
+    // 2. Kiểm tra trạng thái đăng nhập (Nếu chưa đăng nhập thì chuyển hướng)
+    if (!$userData || !isset($userData['id'])) {
+        // Thay thế bằng URL đăng nhập thực tế của bạn
+        header('Location: ' . BASE_URL . '/?module=candidate&action=login'); 
+        exit();
+    }
+
+    // 3. Khai báo các biến động
+    $currentUserId = $userData['id'];
+    $currentUserName = $userData['fullname'] ?? $userData['email'] ?? 'Người dùng'; 
+    $savedJobs = [];
+    $suggestedJobs = [];
+
+    // II. LOGIC TRUY VẤN VIỆC LÀM ĐÃ LƯU
+
+    // 1. Lấy Candidate ID từ User ID
+    $candidateProfileSql = "SELECT id FROM candidate_profiles WHERE user_id = {$currentUserId}";
+    $candidateProfile = getOne($candidateProfileSql); 
+    $candidateId = $candidateProfile['id'] ?? 0;
+    $savedPostIds = ['0']; // Mảng để lưu ID các bài đã lưu (để loại trừ ở phần gợi ý)
+
+    if ($candidateId > 0) {
+        // 2. Truy vấn chi tiết các bài đăng đã lưu (sử dụng LEFT JOIN để kiểm tra trạng thái lưu)
+        $savedJobsSql = "
+            SELECT 
+                rj.id, rj.title, rj.salary_min, rj.salary_max, rj.deadline, rj.location,
+                ep.company_name, ep.logo
+            FROM saved_jobs sj
+            JOIN recruitment_posts rj ON sj.post_id = rj.id
+            JOIN employer_profiles ep ON rj.user_id = ep.user_id
+            WHERE sj.candidate_id = {$candidateId} AND rj.status = '1'
+            ORDER BY sj.saved_at DESC
+        ";
+        $savedJobs = getAll($savedJobsSql);
+        
+        // Lấy danh sách ID đã lưu để loại trừ khỏi phần gợi ý
+        $savedPostIds = array_map(fn($job) => $job['id'], $savedJobs);
+        $excludeIds = empty($savedPostIds) ? '0' : implode(',', $savedPostIds);
+
+    } else {
+        $excludeIds = '0';
+    }
+
+    // III. LOGIC TRUY VẤN VIỆC LÀM GỢI Ý
+
+    $suggestedLimit = 5; 
+    $suggestedJobsSql = "
+        SELECT 
+            rj.id, rj.title, rj.salary_min, rj.salary_max, rj.deadline, rj.location,
+            ep.company_name, ep.logo
+        FROM recruitment_posts rj
+        JOIN employer_profiles ep ON rj.user_id = ep.user_id
+        WHERE rj.status = '1' AND rj.id NOT IN ({$excludeIds})
+        ORDER BY rj.created_at DESC
+        LIMIT {$suggestedLimit}
+    ";
+    $suggestedJobs = getAll($suggestedJobsSql);
+?>
 
 <!--  Nội dung trang savejob -->
 <div class="container ">
     <div class="inner-wrapper">
         <aside class="sidebar">
-            <div class="username">Trong Suu</div>
+            <div class="username"><?php echo $currentUserName; ?></div>
 
             <ul class="submenu-main-content">
                 <li><i class="fa-solid fa-magnifying-glass"></i> Hồ sơ của tôi</li>
@@ -28,172 +94,146 @@
 
         <div class="content">
             <div class="content-one">
-                <div class="intro">Xin Chào, <span>Trong Suu</span></div>
+                <div class="intro">Xin Chào, <span><?php echo $currentUserName; ?></span></div>
             </div>
 
             <div class="content-two">
-                <div class="title">
-                    <span class="title-one">Việc làm đã lưu</span>
-                </div>
+            <div class="title">
+                <span class="title-one">Việc làm đã lưu</span>
+            </div>
+
+            <?php if (empty($savedJobs)) { ?>
                 <div class="display-inform">
                     <div class="status-inform">Bạn chưa có việc làm đã lưu</div>
                     <div class="desc-inform">
                         <img src="/JobPortalWebsite/assets/images/undraw_empty-street_3ogh.svg" alt="empty">
                     </div>
                 </div>
-            </div>
-
-            <div class="content-three">
-                <div class="wrapper">
-                    <div class="title"><i class="fa-regular fa-lightbulb"></i> <span>Việc làm gợi ý</span></div>
+            <?php } else { ?>
+                <div class="job-list-saved">
+                    <?php 
+                    foreach ($savedJobs as $job) { 
+                        $jobId = htmlspecialchars($job['id']);
+                        $jobTitle = htmlspecialchars($job['title']);
+                        $companyName = htmlspecialchars($job['company_name']);
+                        $salaryRange = format_salary($job['salary_min'], $job['salary_max']);
+                        $daysRemaining = calculate_days_remaining($job['deadline']);
+                        $location = htmlspecialchars($job['location']);
+                        $logoUrl = !empty($job['logo']) ? htmlspecialchars($job['logo']) : 'URL_DEFAULT'; // Tùy chỉnh URL mặc định
+                    ?>
+                        <div class="job-card-saved">
+                            <div class="card-left">
+                                <a href="/job/detail?id=<?php echo $jobId; ?>"><?php echo $jobTitle; ?></a>
+                                <div class="company-name"><?php echo $companyName; ?></div>
+                            </div>
+                            <div class="card-right">
+                                <span class="salary"><?php echo $salaryRange; ?></span>
+                                <span class="location"><?php echo $location; ?></span>
+                                <i class="fa-solid fa-heart favorite-btn saved" data-job-id="<?php echo $jobId; ?>"></i>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
-
-                <!-- list job -->
-                <div class="job-grid">
-                    <a href="#" class="job-card">
-                        <div class="inner">
-                            <div class="major"><span>Trưởng phòng hành chính nhân sự</span> <i class="fa-regular fa-heart"></i></div>
-                        </div>
-                        <div class="inner-two">
-                            <div class="image">
-                                <img src="https://cdn1.vieclam24h.vn/images/employer_avatar/2025/11/14/165043568763_176311347227.w-128.h-128.jpeg?v=220513%22" alt="Nguyen Cuong">
-                            </div>
-                            <div class="introduce">
-                                <h3>Công Ty Cổ Phần Nguyên Cường</h3>
-                                <div class="salary"><i class="fa-solid fa-dollar-sign"></i> <span>15 - 30 triệu</span></div>
-                                <div class="position">
-                                    <i class="fa-thin fa-location-dot"></i> <span>TP.HCM</span>
-                                </div>
-                            </div>
-                            <div class="position">
-                                <i class="fa-thin fa-location-dot"></i> <span>TP.HCM</span>
-                            </div>
-                        </div>
-                        <div class="hr"></div>
-                        <div class="coundown">
-                            <div class="space"></div>
-                            <div class="time"><i class="fa-regular fa-clock"></i> <span class="tim_count">Còn 26 ngày</span></div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="job-card">
-                        <div class="inner">
-                            <div class="major"><span>Trưởng phòng hành chính nhân sự</span> <i class="fa-regular fa-heart"></i></div>
-                        </div>
-                        <div class="inner-two">
-                            <div class="image">
-                                <img src="https://cdn1.vieclam24h.vn/tvn/asset/home/img/employer/5f73fc2e535c9_1601436718.w-128.h-128.jpg?v=220513" alt="Nguyen Cuong">
-                            </div>
-                            <div class="introduce">
-                                <h3>Công Ty Cổ Phần Nguyên Cường</h3>
-                                <div class="salary"><i class="fa-solid fa-dollar-sign"></i> <span>15 - 30 triệu</span></div>
-                                <div class="position">
-                                    <i class="fa-thin fa-location-dot"></i> <span>TP.HCM</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr"></div>
-                        <div class="coundown">
-                            <div class="space"></div>
-                            <div class="time"><i class="fa-regular fa-clock"></i> <span class="tim_count">Còn 26 ngày</span></div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="job-card">
-                        <div class="inner">
-                            <div class="major"><span>Trưởng phòng hành chính nhân sự</span> <i class="fa-regular fa-heart"></i></div>
-                        </div>
-                        <div class="inner-two">
-                            <div class="image">
-                                <img src="https://cdn1.vieclam24h.vn/images/employer_avatar/2025/09/17/logo-prosper_175809727945.w-128.h-128.jpg?v=220513" alt="Nguyen Cuong">
-                            </div>
-                            <div class="introduce">
-                                <h3>Công Ty Cổ Phần Nguyên Cường</h3>
-                                <div class="salary"><i class="fa-solid fa-dollar-sign"></i> <span>15 - 30 triệu</span></div>
-                                <div class="position">
-                                    <i class="fa-thin fa-location-dot"></i> <span>TP.HCM</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr"></div>
-                        <div class="coundown">
-                            <div class="space"></div>
-                            <div class="time"><i class="fa-regular fa-clock"></i> <span class="tim_count">Còn 26 ngày</span></div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="job-card">
-                        <div class="inner">
-                            <div class="major"><span>Trưởng phòng hành chính nhân sự</span> <i class="fa-regular fa-heart"></i></div>
-                        </div>
-                        <div class="inner-two">
-                            <div class="image">
-                                <img src="https://cdn1.vieclam24h.vn/images/employer_avatar/2025/05/29/11_174850107744.w-128.h-128.png?v=220513" alt="Nguyen Cuong">
-                            </div>
-                            <div class="introduce">
-                                <h3>Công Ty Cổ Phần Nguyên Cường</h3>
-                                <div class="salary"><i class="fa-solid fa-dollar-sign"></i> <span>15 - 30 triệu</span></div>
-                                <div class="position">
-                                    <i class="fa-thin fa-location-dot"></i> <span>TP.HCM</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr"></div>
-                        <div class="coundown">
-                            <div class="space"></div>
-                            <div class="time"><i class="fa-regular fa-clock"></i> <span class="tim_count">Còn 26 ngày</span></div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="job-card">
-                        <div class="inner">
-                            <div class="major"><span>Trưởng phòng hành chính nhân sự</span> <i class="fa-regular fa-heart"></i></div>
-                        </div>
-                        <div class="inner-two">
-                            <div class="image">
-                                <img src="https://cdn1.vieclam24h.vn/images/old_employer_avatar/images/85b93ba31977b5085e6d6b5790b2f529_1546485884_logo_kizuna_2018_08.w-96.h-96.png" alt="Nguyen Cuong">
-                            </div>
-                            <div class="introduce">
-                                <h3>Công Ty Cổ Phần Nguyên Cường</h3>
-                                <div class="salary"><i class="fa-solid fa-dollar-sign"></i> <span>15 - 30 triệu</span></div>
-                                <div class="position">
-                                    <i class="fa-thin fa-location-dot"></i> <span>TP.HCM</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr"></div>
-                        <div class="coundown">
-                            <div class="space"></div>
-                            <div class="time"><i class="fa-regular fa-clock"></i> <span class="tim_count">Còn 26 ngày</span></div>
-                        </div>
-                    </a>
-
-                    <a href="#" class="job-card">
-                        <div class="inner">
-                            <div class="major"><span>Trưởng phòng hành chính nhân sự</span> <i class="fa-regular fa-heart"></i></div>
-                        </div>
-                        <div class="inner-two">
-                            <div class="image">
-                                <img src="https://cdn1.vieclam24h.vn/images/employer_avatar/2024/09/02/ho%C3%A0n%20l%E1%BB%99c%20vi%E1%BB%87t_172528725190.w-240.h-240.jpg" alt="Nguyen Cuong">
-                            </div>
-                            <div class="introduce">
-                                <h3>Công Ty Cổ Phần Nguyên Cường</h3>
-                                <div class="salary"><i class="fa-solid fa-dollar-sign"></i> <span>15 - 30 triệu</span></div>
-                                <div class="position">
-                                    <i class="fa-thin fa-location-dot"></i> <span>TP.HCM</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="hr"></div>
-                        <div class="coundown">
-                            <div class="space"></div>
-                            <div class="time"><i class="fa-regular fa-clock"></i> <span class="tim_count">Còn 26 ngày</span></div>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            <?php } ?>
         </div>
+
+    <div class="content-three">
+    <div class="wrapper">
+        <div class="title"><i class="fa-regular fa-lightbulb"></i> <span>Việc làm gợi ý</span></div>
+    </div>
+
+    <div class="job-grid">
+        <?php 
+        if (!empty($suggestedJobs)) {
+            foreach ($suggestedJobs as $job) {
+                $jobId = htmlspecialchars($job['id']);
+                $jobTitle = htmlspecialchars($job['title']);
+                $companyName = htmlspecialchars($job['company_name']);
+                $salaryRange = format_salary($job['salary_min'], $job['salary_max']);
+                $daysRemaining = calculate_days_remaining($job['deadline']);
+                $location = htmlspecialchars($job['location']);
+                $logoUrl = !empty($job['logo']) ? htmlspecialchars($job['logo']) : 'URL_DEFAULT';
+        ?>
+            <a href="/job/detail?id=<?php echo $jobId; ?>" class="job-card">
+                <div class="inner">
+                    <div class="major"><span><?php echo $jobTitle; ?></span> 
+                        <i class="fa-regular fa-heart favorite-btn" data-job-id="<?php echo $jobId; ?>"></i>
+                    </div>
+                </div>
+                <div class="inner-two">
+                    <div class="image">
+                        <img src="<?php echo $logoUrl; ?>" alt="<?php echo $companyName; ?>">
+                    </div>
+                    <div class="introduce">
+                        <h3><?php echo $companyName; ?></h3>
+                        <div class="salary"><i class="fa-solid fa-dollar-sign"></i> <span><?php echo $salaryRange; ?></span></div>
+                        <div class="position">
+                            <i class="fa-thin fa-location-dot"></i> <span><?php echo $location; ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hr"></div>
+                <div class="coundown">
+                    <div class="space"></div>
+                    <div class="time"><i class="fa-regular fa-clock"></i> <span class="tim_count"><?php echo $daysRemaining; ?></span></div>
+                </div>
+            </a>
+        <?php 
+            }
+        } else {
+            echo '<p>Hiện không có gợi ý việc làm nào.</p>';
+        }
+        ?>
     </div>
 </div>
 
+<script>
+document.addEventListener("click", function (e) {
+    let btn = e.target.closest(".favorite-btn");
+    if (!btn) return; 
+
+    let postId = btn.dataset.jobId;
+
+    if (!postId) {
+        console.error("Không tìm thấy job-id");
+        return;
+    }
+
+    // Gửi AJAX bằng Fetch API (JS thuần)
+    fetch("/modules/candidate/views/toggle_save_job.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "post_id=" + postId
+    })
+    .then(response => response.json())
+    .then(res => {
+
+        if (res.action === "saved") {
+            btn.classList.remove("fa-regular");
+            btn.classList.add("fa-solid", "saved");
+        }
+        else if (res.action === "unsaved") {
+            btn.classList.remove("fa-solid", "saved");
+            btn.classList.add("fa-regular");
+        }
+
+        showToast(res.message);
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Lỗi hệ thống! Không thể lưu hoặc bỏ lưu.");
+    });
+});
+
+function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "custom-toast";
+    toast.innerText = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 50);
+    setTimeout(() => toast.classList.remove("show"), 2500);
+    setTimeout(() => toast.remove(), 3000);
+}
+</script>
 <?php require_once getCurrentPath() . '/core/templates/candidate_footer.php'; ?>

@@ -71,16 +71,9 @@ $isCandidate = $isLoggedIn; // Chỉ cần dùng $isLoggedIn
                                             <i class="fa-solid fa-chevron-down arrow"></i>
                                         </div>
                                         <ul class="submenu-listchild">
-                                            <li><a
-                                                    href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i
-                                                        class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
-                                            <li><a
-                                                    href="<?php echo BASE_URL; ?>/modules/candidate/applied-job_page.php"><i
-                                                        class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
-                                            <li><a href="<?php echo BASE_URL; ?>/modules/candidate/wait-job_page.php"><i
-                                                        class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
-                                            <li><a href="#"><i class="fa-solid fa-circle"></i> Nhà tuyển dụng xem hồ
-                                                    sơ</a></li>
+                                            <li><a href="<?php echo BASE_URL; ?>/?module=candidate&action=applied-job_page"><i class="fa-solid fa-circle"></i> Việc làm đã ứng tuyển</a></li>
+                                            <li><a href="<?php echo BASE_URL; ?>/?module=candidate&action=saved-job_page"><i class="fa-solid fa-circle"></i> Việc làm đã lưu</a></li>
+                                            <li><a href="<?php echo BASE_URL; ?>/?module=candidate&action=wait-job_page"><i class="fa-solid fa-circle"></i> Việc làm chờ ứng tuyển</a></li>
                                         </ul>
                                     </div>
                                 </li>

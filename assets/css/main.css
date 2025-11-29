@@ -531,6 +531,17 @@ main .content .content-two .display-inform{
     height: auto;
     margin-bottom: 15px;
 }
+
+.favorite-btn {
+    cursor: pointer;
+    font-size: 20px;
+    color: #aaa;
+    transition: 0.2s;
+}
+
+.favorite-btn.saved {
+    color: red; 
+}
 /* Lưới công việc */
 .content-three{
     background-color: #f2f1f1;
